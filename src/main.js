@@ -1,56 +1,45 @@
-import '@babel/polyfill';
-import 'mutationobserver-shim';
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import vuetify from './plugins/vuetify';
-import VueCookies from 'vue-cookies';
-import VueNativeSock from 'vue-native-websocket';
-import VueSpinners from 'vue-spinners';
-import 'leaflet/dist/leaflet.css';
-import demoJSON from '../public/demoData/demo.json';
-import VueApexCharts from 'vue-apexcharts'
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+import { createVuetify } from 'vuetify'
+import 'vuetify/styles'
+import VueCookies from 'vue-cookies'
+import { VueNativeSock } from 'vue-native-websocket-vue3'
+import 'leaflet/dist/leaflet.css'
+import VueApexCharts from 'vue3-apexcharts'
 
-if (process.env.VUE_APP_PIXELIT_HOST !== undefined) {
-    Vue.prototype.$pixelitHost = process.env.VUE_APP_PIXELIT_HOST;
+// Створення додатку
+const app = createApp(App)
+
+// Глобальні змінні
+const pixelitHost = import.meta.env.VITE_PIXELIT_HOST || location.host
+const apiServerBaseURL = import.meta.env.VITE_API_SERVER || 'https://pixelit.bastelbunker.de/api'
+
+app.config.globalProperties.$pixelitHost = pixelitHost
+app.config.globalProperties.$apiServerBaseURL = apiServerBaseURL
+app.config.globalProperties.$client = 'PixelIt-Webui'
+
+// Використання плагінів
+app.use(router)
+app.use(store)
+app.use(createVuetify())
+app.use(VueCookies, { expire: '10y' })
+app.component('apexchart', VueApexCharts)
+
+// Підключення WebSocket або DEMO режим
+if (location.host.includes('.github.io') || import.meta.env.VITE_DEMO_MODE === 'true') {
+    const demoJSON = await import('../public/demoData/demo.json')
+    store.commit('SOCKET_ONMESSAGE', demoJSON.default)
+    app.config.globalProperties.$demoMode = true
 } else {
-    Vue.prototype.$pixelitHost = location.host;
-}
-
-if (process.env.VUE_APP_API_SERVER !== undefined) {
-    Vue.prototype.$apiServerBaseURL = process.env.VUE_APP_API_SERVER;
-} else {
-    Vue.prototype.$apiServerBaseURL = 'https://pixelit.bastelbunker.de/api';
-}
-
-Vue.prototype.$client = 'PixelIt-Webui';
-
-Vue.use(VueSpinners);
-Vue.use(VueCookies);
-
-// Demo mode
-if (location.host.includes('.github.io') || (process.env.VUE_APP_DEMO_MODE !== undefined && process.env.VUE_APP_DEMO_MODE == 'true')) {
-    store.commit('SOCKET_ONMESSAGE', demoJSON);
-    Vue.prototype.$demoMode = true;
-}
-// Prod mode
-else {
-    Vue.use(VueNativeSock, `ws://${Vue.prototype.$pixelitHost}:81`, {
+    app.use(VueNativeSock, `ws://${pixelitHost}:81`, {
         store: store,
         reconnection: true,
         format: 'json',
-    });
-    Vue.prototype.$demoMode = false;
+    })
+    app.config.globalProperties.$demoMode = false
 }
 
-Vue.$cookies.config('10y');
-Vue.config.productionTip = false;
-Vue.component('apexchart', VueApexCharts)
-new Vue({
-    router,
-    store,
-    vuetify,
-    VueApexCharts,
-    render: (h) => h(App),
-}).$mount('#app');
+// Монтування додатку
+app.mount('#app')

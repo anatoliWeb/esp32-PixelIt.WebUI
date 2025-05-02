@@ -27,6 +27,7 @@
         </v-main>
     </v-app>
 </template>
+
 <script>
 import NavLinks from './components/NavLinks';
 export default {
@@ -34,7 +35,7 @@ export default {
         // Get style cookie
         this.$vuetify.theme.dark = this.$cookies.get('theme_dark') ? this.$cookies.get('theme_dark') === 'true' : true;
 
-        getCurrentGitReleaseData(this);
+        getCurrentGitReleaseData(this);    
         sendTelemetry(this);
         getStatistics(this);
 
@@ -117,8 +118,8 @@ async function sendTelemetry(vue) {
             }
             // send telemetry
             fetch(`${vue.$apiServerBaseURL}/telemetry`, {
-                method: 'POST',
-                headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Client': vue.$client},
+                method: 'POST',      
+                headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Client': vue.$client},      
                 body: vue.$store.state.telemetryData,
             });
         } else {
@@ -139,8 +140,8 @@ async function getStatistics(vue) {
     } catch (error) {
         console.log(`getUserMapData: error (${error})`);
     }
-
-    try {
+   
+    try {      
         vue.$store.state.statistics = await (await fetch(`${vue.$apiServerBaseURL}/statistics?uuid=${uuid}`)).json();
     } catch (error) {
         console.log(`getStatistics: error (${error})`);
@@ -163,8 +164,8 @@ function getUUID(vue){
     return JSON.parse(vue.$store.state.telemetryData).uuid
 }
 
-// 0 if a = b
-// 1 if a > b
+// 0 if a = b 
+// 1 if a > b 
 // -1 if a < b
 const compareVersions = ((prep, l, i, r) => (a, b) =>{
     a = prep(a);
