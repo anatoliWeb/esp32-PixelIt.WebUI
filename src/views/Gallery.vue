@@ -2,30 +2,55 @@
     <v-container class="gallery">
         <v-row>
             <v-col cols="12">
-                <v-text-field v-model="message" v-if="!isLoading" prepend-inner-icon="mdi-magnify" single-line outlined filled hide-details auto-grow label="Search for name or ID" type="text"></v-text-field>
+                <v-text-field
+                        v-model="message"
+                        v-if="!isLoading"
+                        prepend-inner-icon="mdi-magnify"
+                        single-line
+                        outlined
+                        filled
+                        hide-details
+                        auto-grow
+                        label="Search for name or ID"
+                        type="text"
+                />
             </v-col>
+
             <v-col v-if="isLoading" cols="12" class="text-center">
-                <fold :loading="isLoading"></fold>
+                <fold :loading="isLoading" />
                 Loading...
             </v-col>
-            <v-col v-for="bmp in getBMPs" :key="bmp.id" cols="6" lg="2">
+
+            <v-col v-for="bmp in filteredBMPs" :key="bmp.id" cols="6" lg="2">
                 <v-card class="pa-2" elevation="4">
-                    <div class="text-center">
-                        {{ bmp.name }}
-                    </div>
+                    <div class="text-center">{{ bmp.name }}</div>
                     <hr />
-                    <p></p>
+                    <p />
                     <BmpCanvas :bmp="bmp" />
-                    <p></p>
-                    <!-- <hr /> -->
+                    <p />
                     <div class="text-center">
                         <BmpDialog :bmp="bmp" />
-                        <v-btn icon @click="sendBitmap(bmp.rgB565Array, bmp.sizeX)" :disabled="!sockedIsConnected" class="float-right" title="Show on PixelIt">
+                        <v-btn
+                                icon
+                                @click="sendBitmap(bmp.rgB565Array, bmp.sizeX)"
+                                :disabled="!isConnected"
+                                class="float-right"
+                                title="Show on PixelIt"
+                        >
                             <v-icon>mdi-arrow-right-circle-outline</v-icon>
                         </v-btn>
                     </div>
                     <div class="text-center">
-                        <v-text-field prepend-inner-icon="mdi-identifier" rounded dense hide-details readonly :value="bmp.id" append-outer-icon="mdi-content-copy" @click:append-outer="copyText(bmp.id, $event)"></v-text-field>
+                        <v-text-field
+                                prepend-inner-icon="mdi-identifier"
+                                rounded
+                                dense
+                                hide-details
+                                readonly
+                                :value="bmp.id"
+                                append-outer-icon="mdi-content-copy"
+                                @click:append-outer="copyText(bmp.id)"
+                        />
                     </div>
                 </v-card>
             </v-col>
@@ -33,94 +58,77 @@
     </v-container>
 </template>
 
-<script>
-import BmpCanvas from '../components/BmpCanvas';
-import BmpDialog from '../components/BmpDialog';
-export default {
-    name: 'Home',
-    created: function () {
-        getBMPsFromAPI(this.$store.state);
-    },
-    data: function () {
-        return {
-            message: '',
-        };
-    },
-    components: {
-        BmpCanvas,
-        BmpDialog,
-    },
-    methods: {
-        copyText(value, event) {
-            navigator.clipboard.writeText(value);
-            console.log(event);
-            setTimeout(() => {
-                event.target.blur();
-            }, 200);
-        },
-        sendBitmap(rgB565Array, sizeX) {
-            if (rgB565Array.endsWith(',')) {
-                rgB565Array = rgB565Array.slice(0, -1);
-            }
-            if (sizeX == 8) {
-                this.$socket.sendObj({
-                    setScreen: {
-                        bitmapAnimation: {
-                            data: JSON.parse(`[${rgB565Array}]`),
-                            animationDelay: 200,
-                        },
-                    },
-                });
-            } else {
-                this.$socket.sendObj({                   
-                    setScreen: {
-                        bitmap: {
-                            data: JSON.parse(rgB565Array),
-                            position: {
-                                x: 0,
-                                y: 0,
-                            },
-                            size: {
-                                width: sizeX,
-                                height: 8,
-                            },
-                        },
-                    },
-                });
-            }
-        },
-    },
-    computed: {
-        getBMPs() {
-            return this.$store.state.bmpsFromAPI.filter((x) => x.name.toLowerCase().includes(this.message.toLowerCase()) || x.id == this.message);
-        },
-        isLoading() {
-            return this.$store.state.bmpsFromAPI.length == 0;
-        },
-        sockedIsConnected() {
-            return this.$store.state.socket.isConnected;
-        },
-    },
-};
+<script setup>
+    import { ref, computed, onMounted } from 'vue'
+    import { useStore } from 'vuex'
+    import BmpCanvas from '@/components/BmpCanvas.vue'
+    import BmpDialog from '@/components/BmpDialog.vue'
+    import Fold from '@/components/Fold.vue'
+    import { getCurrentInstance } from 'vue'
 
-async function getBMPsFromAPI(state) {
-    try {
-        state.bmpsFromAPI = await (await fetch('https://pixelit.bastelbunker.de/api/GetBMPAll')).json();
-    } catch (error) {
-        console.log(`getBMPsFromAPI: error (${error})`);
-        state.bmpsFromAPI = [];
+    const store = useStore()
+    const { appContext } = getCurrentInstance()
+    const $socket = appContext.config.globalProperties.$socket
+
+    const message = ref('')
+
+    const isLoading = computed(() => store.state.bmpsFromAPI.length === 0)
+    const filteredBMPs = computed(() => {
+        const msg = message.value.toLowerCase()
+        return store.state.bmpsFromAPI.filter(
+            x => x.name.toLowerCase().includes(msg) || String(x.id) === message.value
+        )
+    })
+    const isConnected = computed(() => store.state.socket.isConnected)
+
+    // Fetch BMPs on mount
+    onMounted(async () => {
+        try {
+            const data = await fetch('https://pixelit.bastelbunker.de/api/GetBMPAll')
+                .then(res => res.json())
+            store.commit('setBMPs', data)
+        } catch (error) {
+            console.error('getBMPsFromAPI error', error)
+            store.commit('setBMPs', [])
+        }
+    })
+
+    function copyText(value) {
+        navigator.clipboard.writeText(value)
     }
-}
+
+    function sendBitmap(rgB565Array, sizeX) {
+        let arr = rgB565Array
+        if (arr.endsWith(',')) arr = arr.slice(0, -1)
+        if (sizeX === 8) {
+            $socket.sendObj({
+                setScreen: {
+                    bitmapAnimation: {
+                        data: JSON.parse(`[${arr}]`),
+                        animationDelay: 200
+                    }
+                }
+            })
+        } else {
+            $socket.sendObj({
+                setScreen: {
+                    bitmap: {
+                        data: JSON.parse(arr),
+                        position: { x: 0, y: 0 },
+                        size: { width: sizeX, height: 8 }
+                    }
+                }
+            })
+        }
+    }
 </script>
 
 <style scoped>
-canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    border: 1px solid;
-    border-color: grey;
-}
+    canvas {
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0 auto;
+        display: block;
+        border: 1px solid grey;
+    }
 </style>

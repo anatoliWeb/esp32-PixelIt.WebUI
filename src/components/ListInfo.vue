@@ -1,32 +1,24 @@
 <template>
-    <v-simple-table>
-        <template>
-            <tbody>
-                <tr v-for="item in items" :key="item.title">
-                    <td class="name">{{ item.name }}:</td>
-                    <td>
-                        {{ item.value }}
-                    </td>
-                </tr>
-            </tbody>
-        </template>
-    </v-simple-table>
+    <v-table>
+        <tbody>
+        <tr v-for="item in props.items" :key="item.title">
+            <td class="name">{{ item.name }}:</td>
+            <td>{{ item.value }}</td>
+        </tr>
+        </tbody>
+    </v-table>
 </template>
 
-<script>
-export default {
-    props: {
-        items: {
-            type: Array,
-            required: true,
-        },
-    },
-};
+<script setup>
+
+    const props = defineProps({
+        items: { type: Array, required: true }
+    })
 </script>
 
-<style>
-.name {
-    font-weight: 600;
-    font-size: 16px !important;
-}
+<style scoped>
+    .name {
+        font-weight: 600;
+        font-size: 16px !important;
+    }
 </style>

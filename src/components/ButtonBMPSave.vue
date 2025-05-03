@@ -1,26 +1,52 @@
-<template>    
-    <v-dialog v-model="dialog" persistent max-width="450">        
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn :color="color" dark v-bind="attrs" v-on="on" :disabled="!condition">
-                <v-icon left>{{ icon }}</v-icon>
-                {{ text }}
+<template>
+    <v-dialog v-model="dialog" persistent max-width="450">
+        <template #activator="{ on, attrs }">
+            <v-btn
+                    :color="props.color"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    :disabled="!props.condition"
+            >
+                <v-icon left>{{ props.icon }}</v-icon>
+                {{ props.text }}
             </v-btn>
         </template>
+
         <v-card>
             <v-form v-model="isValid">
                 <v-card-title class="text-h5">
                     Save Bitmap?
                 </v-card-title>
+
                 <v-card-text>
-                    <v-text-field  ref="field" v-model="bitmapName"  label="Bitmap Name" :rules="[rules.required, rules.notStartsWithSpace]"></v-text-field>
-                    <v-text-field v-model="userName" @change="changeUserName" label="Your Username" :rules="[rules.notStartsWithSpace]"></v-text-field>
+                    <v-text-field
+                            ref="field"
+                            v-model="bitmapName"
+                            label="Bitmap Name"
+                            :rules="[rules.required, rules.notStartsWithSpace]"
+                    />
+
+                    <v-text-field
+                            v-model="userName"
+                            @change="changeUserName"
+                            label="Your Username"
+                            :rules="[rules.notStartsWithSpace]"
+                    />
                 </v-card-text>
+
                 <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="agreeWraper" :disabled="((!isValid) || (getSizeX == 32 && isAnimated == true))">
-                        Save into Database              
+                    <v-spacer />
+                    <v-btn
+                            color="green darken-1"
+                            text
+                            @click="agreeWrapper"
+                            :disabled="!isValid || (getSizeX === 32 && isAnimated)"
+                    >
+                        Save into Database
                     </v-btn>
-                    <v-btn color="red darken-1" text @click="disagreeWraper">
+
+                    <v-btn color="red darken-1" text @click="disagreeWrapper">
                         Abort
                     </v-btn>
                 </v-card-actions>
@@ -29,81 +55,74 @@
     </v-dialog>
 </template>
 
-<script>
-export default {
-    data() {        
-        return {
-            dialog: false,
-            isValid: false,
-            bitmapName: ' ',
-            userName: this.$cookies.get('userNameForUpload') || '',                        
-        };        
-    },
-    props: {
-        color: {
-            type: String,
-            required: false,
-        },
-        icon: {
-            type: String,
-            required: false,
-        },
-        text: {
-            type: String,
-            required: false,
-        },
-        data: {
-            type: String,
-            required: false,
-        },
-        pixelMode:{
-            type: Number,
-            required: false,
-        },
-        condition: {
-            type: Boolean,
-            required: true,
-        },
-    },
-    computed: {
-        rules() {
-            return this.$store.state.rules;
-        },
-        cleanedData(){
-            return this.data.replaceAll('\n', '').replaceAll(' ', '');
-        },
-        isAnimated(){
-            return this.cleanedData.includes('],[');
-        },
-        getSizeX(){
-            return this.pixelMode == 0 ? 8 : 32;
-        }
-    },
-    methods: {
-        disagreeWraper() {
-            this.dialog = false;
-        },
-        agreeWraper() {     
-             
-            // send new bitmap
-            fetch(`${this.$apiServerBaseURL}/SaveBitmap`, {
+<script setup>
+    import { ref, computed, getCurrentInstance } from 'vue'
+    import { useStore } from 'vuex'
+
+    // Props definition
+    const props = defineProps({
+        color: String,
+        icon: String,
+        text: String,
+        data: String,
+        pixelMode: Number,
+        condition: { type: Boolean, required: true }
+    })
+
+    // Refs
+    const dialog = ref(false)
+    const isValid = ref(false)
+    const bitmapName = ref('')
+
+    // Access globalProperties
+    const { appContext } = getCurrentInstance()
+    const $cookies = appContext.config.globalProperties.$cookies
+    const $apiServerBaseURL = appContext.config.globalProperties.$apiServerBaseURL
+    const $client = appContext.config.globalProperties.$client
+
+    // Initialize username from cookie
+    const userName = ref($cookies.get('userNameForUpload') || '')
+
+    // Vuex store for rules
+    const store = useStore()
+    const rules = computed(() => store.state.config.rules)
+
+    // Computed utilities
+    const cleanedData = computed(() => props.data.replaceAll('\n', '').replaceAll(' ', ''))
+    const isAnimated = computed(() => cleanedData.value.includes('],['))
+    const getSizeX = computed(() => (props.pixelMode === 0 ? 8 : 32))
+
+    // Methods
+    function disagreeWrapper() {
+        dialog.value = false
+    }
+
+    async function agreeWrapper() {
+        try {
+            await fetch(`${$apiServerBaseURL}/SaveBitmap`, {
                 method: 'POST',
-                headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'Client': this.$client},
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Client: $client
+                },
                 body: JSON.stringify({
-                    rgb565array: this.cleanedData,
-                    userName: this.userName != '' ? this.userName : 'Not specified',
-                    name: this.bitmapName,
-                    sizeX: this.getSizeX,
+                    rgb565array: cleanedData.value,
+                    userName: userName.value || 'Not specified',
+                    name: bitmapName.value,
+                    sizeX: getSizeX.value,
                     sizeY: 8,
-                    animated: this.isAnimated
+                    animated: isAnimated.value
                 })
-            });
-            this.dialog = false;
-        },
-        changeUserName(){
-            this.$cookies.set('userNameForUpload', this.userName)
+            })
+        } catch (e) {
+            console.error(e)
+        } finally {
+            dialog.value = false
         }
-    }, 
-    
-};
+    }
+
+    function changeUserName() {
+        $cookies.set('userNameForUpload', userName.value)
+    }
 </script>

@@ -2,77 +2,235 @@
     <v-container class="options">
         <v-row>
             <v-col cols="12" lg="12" class="text-center">
-                <ButtonCondition color="success" :condition="isValid && sockedIsConnected" text="Save config" :onclick="save" icon="mdi-content-save" />
+                <ButtonCondition
+                        color="success"
+                        :condition="isValid && sockedIsConnected"
+                        text="Save config"
+                        :onclick="save"
+                        icon="mdi-content-save"
+                />
             </v-col>
         </v-row>
+
         <v-form v-model="isValid">
             <v-row>
+                <!-- Sensor units and offsets -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Sensor units and offsets</h2>
-                        </v-card-title>
+                        <v-card-title><h2>Sensor units and offsets</h2></v-card-title>
                         <hr />
                         <br />
-                        <v-select :items="temperatureUnits" v-model="config.temperatureUnit" label="Temperature unit"></v-select>
-                        <v-text-field v-model="config.temperatureOffset" type="number" label="Temperature sensor offset" :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="config.humidityOffset" type="number" label="Humidity sensor offset" :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="config.pressureOffset" type="number" label="Pressure sensor offset" :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="config.gasOffset" type="number" label="Gas sensor offset" :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="config.luxOffset" type="number" label="Lux sensor offset" :rules="[rules.required]"></v-text-field>
-                        <v-text-field v-model="config.ldrSmoothing" type="number" label="Number of historic LDR readings to be used for linear smoothing (LDR only)" hint="Enter any value when using BH1750" :rules="[rules.required, rules.min0]"></v-text-field>
+                        <v-select
+                                :items="temperatureUnits"
+                                v-model="config.temperatureUnit"
+                                label="Temperature unit"
+                                item-title="text"
+                                item-value="value"
+                        />
+                        <v-text-field
+                                v-model="config.temperatureOffset"
+                                type="number"
+                                label="Temperature sensor offset"
+                                :rules="[rules.required]"
+                        />
+                        <v-text-field
+                                v-model="config.humidityOffset"
+                                type="number"
+                                label="Humidity sensor offset"
+                                :rules="[rules.required]"
+                        />
+                        <v-text-field
+                                v-model="config.pressureOffset"
+                                type="number"
+                                label="Pressure sensor offset"
+                                :rules="[rules.required]"
+                        />
+                        <v-text-field
+                                v-model="config.gasOffset"
+                                type="number"
+                                label="Gas sensor offset"
+                                :rules="[rules.required]"
+                        />
+                        <v-text-field
+                                v-model="config.luxOffset"
+                                type="number"
+                                label="Lux sensor offset"
+                                :rules="[rules.required]"
+                        />
+                        <v-text-field
+                                v-model="config.ldrSmoothing"
+                                type="number"
+                                label="Number of historic LDR readings"
+                                hint="Enter any value when using BH1750"
+                                :rules="[rules.required, rules.min0]"
+                        />
                     </v-card>
                 </v-col>
+
+                <!-- Sensor hardware -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Sensor hardware</h2>
-                        </v-card-title>
+                        <v-card-title><h2>Sensor hardware</h2></v-card-title>
                         <hr />
                         <br />
                         <h3>I²C sensors</h3>
-                        <v-card-text>If you use BH1750, BME280 or BME680 sensors, these need two pins to communicate. You can use both Lux and Temperature sensors at the same time: just connect them in parallel. If there are no sensors at all, just select any two open pins. </v-card-text>
-                        <v-select :items="config.isESP8266 ? pinsESP8266 : pinsESP32" v-model="config.SCLPin" type="number" label="SCL pin" hint="Pick any value when using no I²C sensors"></v-select>
-                        <v-select :items="config.isESP8266 ? pinsESP8266 : pinsESP32" v-model="config.SDAPin" type="number" label="SDA pin" hint="Pick any value when using no I²C sensors"></v-select>
+                        <v-card-text>
+                            If you use BH1750, BME280 or BME680 sensors, they need two pins to communicate.
+                        </v-card-text>
+                        <v-select
+                                :items="isESP8266 ? pinsESP8266 : pinsESP32"
+                                v-model="config.SCLPin"
+                                label="SCL pin"
+                                hint="Pick any value when using no I²C sensors"
+                                item-title="text"
+                                item-value="value"
+                        />
+                        <v-select
+                                :items="isESP8266 ? pinsESP8266 : pinsESP32"
+                                v-model="config.SDAPin"
+                                label="SDA pin"
+                                hint="Pick any value when using no I²C sensors"
+                                item-title="text"
+                                item-value="value"
+                        />
                         <br />
                         <h3>OneWire sensors</h3>
-                        <v-card-text>If you use OneWire sensors like DHT22, they need one pin to communicate. If there are no I²C sensors (see above), you can re-use one of the pins above. If there is no OneWire sensor, just select any open pin. </v-card-text>
-                        <v-select :items="config.isESP8266 ? pinsESP8266 : pinsESP32" v-model="config.onewirePin" type="number" label="DHT sensor pin" hint="Pick any value when using no OneWire sensors"></v-select>
+                        <v-card-text>
+                            If you use OneWire sensors like DHT22, they need one pin to communicate.
+                        </v-card-text>
+                        <v-select
+                                :items="isESP8266 ? pinsESP8266 : pinsESP32"
+                                v-model="config.onewirePin"
+                                label="DHT sensor pin"
+                                hint="Pick any value when using no OneWire sensors"
+                                item-title="text"
+                                item-value="value"
+                        />
                         <h3>LDR</h3>
-                        <v-card-text>If you use no BH1750, but an LDR (light dependend resistor) connected to the A0 pin, you can define its type and the pulldown resistor here. Select any values if there is no LDR.</v-card-text>
-                        <v-select :items="ldrDevices" v-model="config.ldrDevice" type="number" label="Lux sensor type" hint="Pick any value when using BH1750 or no lux sensor at all"></v-select>
-                        <v-text-field v-model="config.ldrPulldown" type="number" label="Value of pulldown resistor for LDR" suffix="Ohm" hint="Enter any value when using BH1750 or no lux sensor at all" :rules="[rules.required]"></v-text-field>
+                        <v-card-text>
+                            If you use no BH1750 but an LDR, select its type and pulldown resistor.
+                        </v-card-text>
+                        <v-select
+                                :items="ldrDevices"
+                                v-model="config.ldrDevice"
+                                label="Lux sensor type"
+                                hint="Pick any value when using BH1750 or no lux sensor"
+                                item-title="text"
+                                item-value="value"
+                        />
+                        <v-text-field
+                                v-model="config.ldrPulldown"
+                                type="number"
+                                label="Value of pulldown resistor"
+                                suffix="Ohm"
+                                hint="Enter any value when using BH1750 or no lux sensor"
+                                :rules="[rules.required]"
+                        />
                     </v-card>
                 </v-col>
+
+                <!-- Button hardware and actions -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Button hardware</h2>
-                        </v-card-title>
+                        <v-card-title><h2>Button hardware</h2></v-card-title>
                         <hr />
                         <br />
-                        <v-switch v-model="config.btn0Enabled" label="Left button enabled" dense hide-details></v-switch>
-                        <v-select :items="config.isESP8266 ? pinsESP8266 : pinsESP32" v-model="config.btn0Pin" type="number" label="Pin for left button" :disabled="!config.btn0Enabled"></v-select>
-                        <v-select :items="btnLowHigh" v-model="config.btn0PressedLevel" type="number" label="Left button signal type" :disabled="!config.btn0Enabled"></v-select>
+                        <v-switch
+                                v-model="config.btn0Enabled"
+                                label="Left button enabled"
+                                dense hide-details
+                        />
+                        <v-select
+                                :items="isESP8266 ? pinsESP8266 : pinsESP32"
+                                v-model="config.btn0Pin"
+                                label="Pin for left button"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn0Enabled"
+                        />
+                        <v-select
+                                :items="btnLowHigh"
+                                v-model="config.btn0PressedLevel"
+                                label="Left button signal type"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn0Enabled"
+                        />
                         <br />
-                        <v-switch v-model="config.btn1Enabled" label="Middle button enabled" dense hide-details></v-switch>
-                        <v-select :items="config.isESP8266 ? pinsESP8266 : pinsESP32" v-model="config.btn1Pin" type="number" label="Pin for middle button" :disabled="!config.btn1Enabled"></v-select>
-                        <v-select :items="btnLowHigh" v-model="config.btn1PressedLevel" type="number" label="Middle button signal type" :disabled="!config.btn1Enabled"></v-select>
+                        <v-switch
+                                v-model="config.btn1Enabled"
+                                label="Middle button enabled"
+                                dense hide-details
+                        />
+                        <v-select
+                                :items="isESP8266 ? pinsESP8266 : pinsESP32"
+                                v-model="config.btn1Pin"
+                                label="Pin for middle button"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn1Enabled"
+                        />
+                        <v-select
+                                :items="btnLowHigh"
+                                v-model="config.btn1PressedLevel"
+                                label="Middle button signal type"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn1Enabled"
+                        />
                         <br />
-                        <v-switch v-model="config.btn2Enabled" label="Right button enabled" dense hide-details></v-switch>
-                        <v-select :items="config.isESP8266 ? pinsESP8266 : pinsESP32" v-model="config.btn2Pin" type="number" label="Pin for right button" :disabled="!config.btn2Enabled"></v-select>
-                        <v-select :items="btnLowHigh" v-model="config.btn2PressedLevel" type="number" label="Right button signal type" :disabled="!config.btn2Enabled"></v-select>
+                        <v-switch
+                                v-model="config.btn2Enabled"
+                                label="Right button enabled"
+                                dense hide-details
+                        />
+                        <v-select
+                                :items="isESP8266 ? pinsESP8266 : pinsESP32"
+                                v-model="config.btn2Pin"
+                                label="Pin for right button"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn2Enabled"
+                        />
+                        <v-select
+                                :items="btnLowHigh"
+                                v-model="config.btn2PressedLevel"
+                                label="Right button signal type"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn2Enabled"
+                        />
                     </v-card>
+
                     <br />
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Button actions</h2>
-                        </v-card-title>
+                        <v-card-title><h2>Button actions</h2></v-card-title>
                         <hr />
                         <br />
-                        <v-select :items="btnActions" v-model="config.btn0Action" type="number" label="Left button action" :disabled="!config.btn0Enabled"></v-select>
-                        <v-select :items="btnActions" v-model="config.btn1Action" type="number" label="Middle button action" :disabled="!config.btn1Enabled"></v-select>
-                        <v-select :items="btnActions" v-model="config.btn2Action" type="number" label="Right button action" :disabled="!config.btn2Enabled"></v-select>
+                        <v-select
+                                :items="btnActions"
+                                v-model="config.btn0Action"
+                                label="Left button action"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn0Enabled"
+                        />
+                        <v-select
+                                :items="btnActions"
+                                v-model="config.btn1Action"
+                                label="Middle button action"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn1Enabled"
+                        />
+                        <v-select
+                                :items="btnActions"
+                                v-model="config.btn2Action"
+                                label="Right button action"
+                                item-title="text"
+                                item-value="value"
+                                :disabled="!config.btn2Enabled"
+                        />
                     </v-card>
                 </v-col>
             </v-row>
@@ -80,55 +238,72 @@
     </v-container>
 </template>
 
-<script>
-import ButtonCondition from '../components/ButtonCondition';
-export default {
-    name: 'SensorsButtons',
-    data: () => ({
-        isValid: true,
-    }),
-    components: {
-        ButtonCondition,
-    },
-    computed: {
-        rules() {
-            return this.$store.state.rules;
-        },
-        config() {
-            return this.$store.state.configData;
-        },
-        sockedIsConnected() {
-            return this.$store.state.socket.isConnected;
-        },
-        temperatureUnits() {
-            return this.$store.state.temperatureUnits;
-        },
-        ldrDevices() {
-            return this.$store.state.ldrDevices;
-        },
-        isESP8266() {
-            return this.$store.state.config.isESP8266;
-        },
-        btnLowHigh() {
-            return this.$store.state.btnLowHigh;
-        },
-        btnActions() {
-            return this.$store.state.btnActions;
-        },
-        pinsESP32() {
-            return this.$store.state.pinsESP32;
-        },
-        pinsESP8266() {
-            return this.$store.state.pinsESP8266;
-        },
-    },
-    methods: {
-        save() {
-            this.$socket.sendObj({ setConfig: this.config });
-            setTimeout(() => {
-                this.$socket.close();
-            }, 3000);
-        },
-    },
-};
+<script setup>
+    import { ref, computed, getCurrentInstance,onMounted } from 'vue'
+    import { useStore } from 'vuex'
+    import ButtonCondition from '@/components/ButtonCondition.vue'
+
+    const store = useStore()
+    const { appContext } = getCurrentInstance()
+    const $socket = appContext.config.globalProperties.$socket
+
+    const isValid = ref(true)
+
+    // Computed state
+    const rules = computed(() => store.state.config.rules)
+    const config = computed(() => store.state.config.configData)
+    const sockedIsConnected = computed(() => store.state.socket.isConnected)
+    const temperatureUnits = computed(() => store.state.config.temperatureUnits)
+    const ldrDevices = computed(() => store.state.config.ldrDevices)
+    const isESP8266 = computed(() => store.state.config.isESP8266)
+    const btnLowHigh = computed(() => store.state.config.btnLowHigh)
+    const btnActions = computed(() => store.state.config.btnActions)
+    const pinsESP32 = computed(() => store.state.config.pinsESP32)
+    const pinsESP8266 = computed(() => store.state.config.pinsESP8266)
+
+    console.log("config", config);
+    console.log("isESP8266", isESP8266);
+
+    console.log('temperatureUnits', temperatureUnits.value);
+    console.log('config.temperatureUnit', config.value.temperatureUnit);
+
+    // Methods
+    function save() {
+        $socket.sendObj({ setConfig: config.value })
+        setTimeout(() => $socket.close(), 3000)
+    }
+
+    // 🛠 Приводимо обʼєкти в конфігурації до value при завантаженні
+    onMounted(() => {
+        const convertToValue = (field) => {
+            if (typeof config.value[field] === 'object' && config.value[field] !== null && 'value' in config.value[field]) {
+                config.value[field] = config.value[field].value
+            }
+            console.log("field", field);
+            console.log("config.value", config.value[field]);
+        }
+
+        console.log("config", config);
+
+        convertToValue('temperatureUnit')
+        convertToValue('SCLPin')
+        convertToValue('SDAPin')
+        convertToValue('onewirePin')
+        convertToValue('ldrDevice')
+        convertToValue('btn0Pin')
+        convertToValue('btn0PressedLevel')
+        convertToValue('btn1Pin')
+        convertToValue('btn1PressedLevel')
+        convertToValue('btn2Pin')
+        convertToValue('btn2PressedLevel')
+        convertToValue('btn0Action')
+        convertToValue('btn1Action')
+        convertToValue('btn2Action')
+    })
+
+
 </script>
+
+<style scoped>
+    /* Додайте стилі за потреби */
+</style>

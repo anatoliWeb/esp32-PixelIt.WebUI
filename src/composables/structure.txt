@@ -1,0 +1,8 @@
+🗂 Структура папки src/composables/
+
+src/
+└── composables/
+    ├── useGitRelease.js      # логіка завантаження інформації про релізи
+    ├── useStatistics.js      # логіка отримання статистики з API
+    ├── useTelemetry.js       # логіка надсилання та зберігання телеметрії
+    └── useSocketListener.js  # підписка на події WebSocket

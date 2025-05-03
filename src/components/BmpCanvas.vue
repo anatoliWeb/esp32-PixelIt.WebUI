@@ -1,87 +1,97 @@
 <template>
-    <canvas :height="height ? height : 150" :width="width ? width : bmp.sizeX == 8 ? 150 : 230" v-insertbmp="bmp"></canvas>
+    <canvas
+            ref="canvas"
+            :height="props.height || 150"
+            :width="props.width || (props.bmp.sizeX === 8 ? 150 : 230)"
+    />
 </template>
 
-<script>
-export default {
-    props: {
+<script setup>
+    import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+
+    // Props
+    const props = defineProps({
         bmp: {
             type: Object,
-            required: true,
+            required: true
         },
-        height: {
-            type: String,
-            required: false,
-        },
-        width: {
-            type: String,
-            required: false,
-        },
-    },
-    directives: {
-        insertbmp: function (canvasElement, binding) {
-            let bmpArrayString = binding.value.rgB565Array;
-            const sizeX = binding.value.sizeX;
-            const sizeY = binding.value.sizeY;
+        height: String,
+        width: String
+    })
 
-            if (bmpArrayString.endsWith(',')) {
-                bmpArrayString = bmpArrayString.slice(0, -1);
+    const canvas = ref(null)
+    let loopInterval = null
+
+    // Розбір рядка RG565 масиву
+    function parseBmpArray(str) {
+        const s = str.endsWith(',') ? str.slice(0, -1) : str
+        return JSON.parse(`[${s}]`)
+    }
+
+    // Малюємо один кадр
+    function drawFrame(data) {
+        const ctx = canvas.value.getContext('2d')
+        const cw = canvas.value.width
+        const size = cw / props.bmp.sizeX
+        ctx.clearRect(0, 0, cw, canvas.value.height)
+
+        const widthCount = props.bmp.sizeX
+        const heightCount = props.bmp.sizeX === 8 ? props.bmp.sizeY : props.bmp.sizeY + 6
+        let idx = 0
+        const startY = props.bmp.sizeX === 8 ? 0 : 6
+
+        for (let y = startY; y < heightCount; y++) {
+            for (let x = 0; x < widthCount; x++) {
+                const rgb = RGB565IntToRGB(data[idx++])
+                ctx.fillStyle = RGBToHEX(rgb[0], rgb[1], rgb[2])
+                ctx.fillRect(x * size, y * size, size, size)
             }
+        }
+    }
 
-            const bmpArray = JSON.parse(`[${bmpArrayString}]`);
-            let bmpsLoopCounter = 0;
-            let bmpsLoopInterval;
-            if (bmpArray.length > 1) {
-                if (bmpsLoopInterval) {
-                    clearInterval(bmpsLoopInterval);
-                }
-                bmpsLoopInterval = setInterval(() => {
-                    if (bmpArray.length == bmpsLoopCounter) {
-                        bmpsLoopCounter = 0;
-                    }
-                    drawCanvas(bmpArray[bmpsLoopCounter]);
-                    bmpsLoopCounter++;
-                }, 250);
-                for (const bmp of bmpArray) {
-                    drawCanvas(bmp);
-                }
-            } else {
-                drawCanvas(bmpArray[0]);
-            }
+    // Запуск циклу малювання
+    function startDrawing() {
+        const frames = parseBmpArray(props.bmp.rgB565Array)
+        if (frames.length > 1) {
+            let idx = 0
+            loopInterval = setInterval(() => {
+                drawFrame(frames[idx])
+                idx = (idx + 1) % frames.length
+            }, 250)
+        }
+        drawFrame(frames[0])
+    }
 
-            function drawCanvas(bmp) {
-                const ctx = canvasElement.getContext('2d');
-                const canvasWidth = canvasElement.width;
-                const canvasHeight = canvasElement.height;
-                const size = canvasWidth / sizeX;
+    onMounted(() => startDrawing())
 
-                ctx.clearRect(0, 0, canvasWidth, canvasHeight); // clear canvas
+    onBeforeUnmount(() => {
+        if (loopInterval) clearInterval(loopInterval)
+    })
 
-                const width = sizeX;
-                const height = sizeX == 8 ? sizeY : sizeY + 6;
-                let i = 0;
-                for (let y = sizeX == 8 ? 0 : 6; y < height; y++) {
-                    for (let x = 0; x < width; x++) {
-                        const rgb = RGB565IntToRGB(bmp[i++]);
-                        let color = RGBToHEX(rgb[0], rgb[1], rgb[2]);
-                        ctx.fillStyle = color;
-                        ctx.fillRect(x * size, y * size, size, size);
-                    }
-                }
-            }
-        },
-    },
-};
+    watch(
+        () => props.bmp.rgB565Array,
+        () => {
+            if (loopInterval) clearInterval(loopInterval)
+            startDrawing()
+        }
+    )
 
-function RGB565IntToRGB(color) {
-    const r = (((color >> 11) & 0x1f) * 527 + 23) >> 6;
-    const g = (((color >> 5) & 0x3f) * 259 + 33) >> 6;
-    const b = ((color & 0x1f) * 527 + 23) >> 6;
-    return [r, g, b];
-}
+    // Вспомогальні функції
+    function RGB565IntToRGB(color) {
+        const r = (((color >> 11) & 0x1f) * 527 + 23) >> 6
+        const g = (((color >> 5) & 0x3f) * 259 + 33) >> 6
+        const b = ((color & 0x1f) * 527 + 23) >> 6
+        return [r, g, b]
+    }
 
-function RGBToHEX(red, green, blue) {
-    const rgb = blue | (green << 8) | (red << 16);
-    return '#' + (0x1000000 + rgb).toString(16).slice(1);
-}
+    function RGBToHEX(r, g, b) {
+        const rgb = (b | (g << 8) | (r << 16)) >>> 0
+        return `#${(0x1000000 + rgb).toString(16).slice(1)}`
+    }
 </script>
+
+<style scoped>
+    #canvas {
+        border: 1px solid #5a5a5a;
+    }
+</style>

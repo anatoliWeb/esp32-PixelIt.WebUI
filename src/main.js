@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
+import '/node_modules/@mdi/font/css/materialdesignicons.css'
 import VueCookies from 'vue-cookies'
 import { VueNativeSock } from 'vue-native-websocket-vue3'
 import 'leaflet/dist/leaflet.css'
@@ -28,9 +29,10 @@ app.use(VueCookies, { expire: '10y' })
 app.component('apexchart', VueApexCharts)
 
 // Підключення WebSocket або DEMO режим
-if (location.host.includes('.github.io') || import.meta.env.VITE_DEMO_MODE === 'true') {
+if (true || location.host.includes('.github.io') || import.meta.env.VITE_DEMO_MODE === 'true') {
     const demoJSON = await import('../public/demoData/demo.json')
-    store.commit('SOCKET_ONMESSAGE', demoJSON.default)
+    // store.commit('SOCKET_ONMESSAGE', demoJSON.default)
+    store.commit('socket/SOCKET_ONMESSAGE', demoJSON.default)
     app.config.globalProperties.$demoMode = true
 } else {
     app.use(VueNativeSock, `ws://${pixelitHost}:81`, {
@@ -40,6 +42,8 @@ if (location.host.includes('.github.io') || import.meta.env.VITE_DEMO_MODE === '
     })
     app.config.globalProperties.$demoMode = false
 }
+
+window.__appStore = store
 
 // Монтування додатку
 app.mount('#app')

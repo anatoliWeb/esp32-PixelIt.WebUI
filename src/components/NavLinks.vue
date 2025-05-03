@@ -1,29 +1,30 @@
 <template>
     <v-list>
-        <div v-for="item of items" :key="item.title">
-            <v-list-item v-if="item.separator == true" disabled :key="item.title" link :to="item.page" :href="item.url" :target="item.target">
-                <v-divider></v-divider>
-            </v-list-item>
-            <v-list-item v-if="item.separator != true" :key="item.title" link :to="item.page" :href="item.url" :target="item.target">
-                <v-list-item-icon>
+        <template v-for="item in props.items" :key="item.title">
+            <v-divider v-if="item.separator" />
+            <v-list-item
+                    v-else
+                    :to="item.page"
+                    :href="item.url"
+                    :target="item.target"
+                    :disabled="item.separator"
+            >
+                <template #prepend>
                     <v-icon>{{ item.icon }}</v-icon>
-                </v-list-item-icon>
-
-                <v-list-item-content>
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
+                </template>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item>
-        </div>
+        </template>
     </v-list>
 </template>
 
-<script>
-export default {
-    props: {
-        items: {
-            type: Array,
-            required: true,
-        },
-    },
-};
+<script setup>
+
+    const props = defineProps({
+        items: { type: Array, required: true }
+    })
 </script>
+
+<style scoped>
+    /* Додайте стилі за потреби */
+</style>

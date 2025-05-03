@@ -8,6 +8,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@mdi/font": "^7.4.47",
         "apexcharts": "^3.44.0",
         "core-js": "^3.38.1",
         "leaflet": "^1.9.4",
@@ -16,12 +17,14 @@
         "popper.js": "^1.16.1",
         "portal-vue": "^3.0.0",
         "prismjs": "^1.29.0",
+        "proj4": "^2.15.0",
+        "proj4leaflet": "^1.0.2",
         "vue": "^3.4.15",
-        "vue3-apexcharts": "^1.8.0",
         "vue-cookies": "^1.8.6",
         "vue-native-websocket-vue3": "^3.0.2",
         "vue-prism-editor": "^2.0.0-alpha.2",
         "vue-router": "^4.2.5",
+        "vue3-apexcharts": "^1.8.0",
         "vue3-leaflet": "^1.0.2",
         "vuetify": "^3.6.5",
         "vuex": "^4.1.0"
@@ -30,9 +33,10 @@
         "@vitejs/plugin-vue": "^4.5.1",
         "eslint": "^8.57.0",
         "eslint-plugin-vue": "^9.21.0",
-        "sass": "^1.69.5",
+        "sass": "^1.87.0",
         "sass-loader": "^13.3.2",
-        "vite": "^4.5.2"
+        "vite": "^4.5.2",
+        "vite-plugin-vuetify": "^2.1.1"
     },
     "eslintConfig": {
         "root": true,

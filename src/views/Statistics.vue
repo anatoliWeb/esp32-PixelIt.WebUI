@@ -1,14 +1,21 @@
 <template>
     <v-container class="statistics">
-        <div v-if="statsError || sendStatistics == false">
+        <div v-if="statsError || !sendStatistics">
             <v-row>
-                <v-col cols="12" lg="12">
+                <v-col cols="12">
                     <v-card class="pa-2" elevation="4">
                         <v-card-text class="text-md-center">
-                            <h2>Activate the telemetry data to see the statistics.</h2>
-                            <br>
-                            <h4>To activate the telemetry data, go to <a href="/#/options"><b>Options</b> and activate <b>"Send Telemetry data"</b></a></h4>
-                            <small>After activation, it can take up to one minute for the data to become visible.</small>
+                            <h2>
+                                Activate the telemetry data to see the statistics.
+                            </h2>
+                            <br />
+                            <h4>
+                                To activate the telemetry data, go to
+                                <a href="/#/options"><b>Options</b> and activate <b>"Send Telemetry data"</b></a>
+                            </h4>
+                            <small>
+                                After activation, it can take up to one minute for the data to become visible.
+                            </small>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -16,73 +23,97 @@
         </div>
         <div v-else>
             <v-row>
-                <v-col cols="12" lg="12">
+                <v-col cols="12">
                     <v-card class="pa-2" elevation="4">
                         <v-card-text class="text-md-center">
-                            These statistics are created with the telemetry data of the PixelIts that have reported in the last 30 days.<br>
-                                <b>Thanks to everyone who shares this data with us!</b>
+                            These statistics are created with the telemetry data of the
+                            PixelIts that have reported in the last 30 days.
+                            <br />
+                            <b>Thanks to everyone who shares this data with us!</b>
                         </v-card-text>
                     </v-card>
                 </v-col>
             </v-row>
+
             <v-row>
                 <v-col cols="12" lg="4">
                     <v-card class="pa-1" elevation="4">
-                        <v-card-title>
-                            <h2>Boards</h2>
-                        </v-card-title>
-                        <hr />              
-                        <apexchart height="600px" width="100%" type="bar" :options="chartOptions" :series="buildStats"></apexchart>
-                    </v-card>                   
-                </v-col>
-                <v-col cols="12" lg="4">
-                    <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Versions</h2>
-                        </v-card-title>
-                        <hr />                      
-                        <apexchart height="600px" width="100%" type="bar" :options="chartOptions" :series="versionStats"></apexchart>                  
+                        <v-card-title><h2>Boards</h2></v-card-title>
+                        <hr />
+                        <apexchart
+                                height="600px"
+                                width="100%"
+                                type="bar"
+                                :options="chartOptions"
+                                :series="buildStats"
+                        />
                     </v-card>
                 </v-col>
+
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Sensors</h2>
-                        </v-card-title>
-                        <hr />                      
-                        <apexchart height="600px" width="100%" type="bar" :options="chartOptions" :series="sensorStats"></apexchart>                  
+                        <v-card-title><h2>Versions</h2></v-card-title>
+                        <hr />
+                        <apexchart
+                                height="600px"
+                                width="100%"
+                                type="bar"
+                                :options="chartOptions"
+                                :series="versionStats"
+                        />
+                    </v-card>
+                </v-col>
+
+                <v-col cols="12" lg="4">
+                    <v-card class="pa-2" elevation="4">
+                        <v-card-title><h2>Sensors</h2></v-card-title>
+                        <hr />
+                        <apexchart
+                                height="600px"
+                                width="100%"
+                                type="bar"
+                                :options="chartOptions"
+                                :series="sensorStats"
+                        />
                     </v-card>
                 </v-col>
             </v-row>
+
             <v-row>
                 <v-col cols="12" lg="8">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Countries</h2>
-                        </v-card-title>
-                        <hr />                    
-                        <apexchart height="600px" type="donut" :options="countryChartOptions" :series="countryStats"></apexchart>     
-                    </v-card>               
+                        <v-card-title><h2>Countries</h2></v-card-title>
+                        <hr />
+                        <apexchart
+                                height="600px"
+                                type="donut"
+                                :options="countryChartOptions"
+                                :series="countryStats"
+                        />
+                    </v-card>
                 </v-col>
+
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Matrix Types</h2>
-                        </v-card-title>
-                        <hr />                      
-                        <apexchart height="600px" width="100%" type="bar" :options="chartOptions" :series="matrixStats"></apexchart>                  
+                        <v-card-title><h2>Matrix Types</h2></v-card-title>
+                        <hr />
+                        <apexchart
+                                height="600px"
+                                width="100%"
+                                type="bar"
+                                :options="chartOptions"
+                                :series="matrixStats"
+                        />
                     </v-card>
                 </v-col>
             </v-row>
+
             <v-row>
-                <v-col cols="12" lg="12">
+                <v-col cols="12">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title>
-                            <h2>Usermap</h2>
-                        </v-card-title>
-                        <hr />                        
-                        <p></p>
-                        <UserMap :mapZoom= 3  :coords="userMapData" height="600px" />
+                        <v-card-title><h2>Usermap</h2></v-card-title>
+                        <hr />
+                        <UserMap :coords="userMapData" :mapZoom="3" height="600px" />
                     </v-card>
                 </v-col>
             </v-row>
@@ -90,128 +121,89 @@
     </v-container>
 </template>
 
-<script>
-import UserMap from '../components/UserMap';
+<script setup>
+    import { computed } from 'vue'
+    import { useStore } from 'vuex'
+    import ApexChart from 'vue3-apexcharts'
+    // import UserMap from '@/components/UserMap.vue'
 
-export default {
-    name: 'Statistics',
-     data: () => ({        
-    }),
-    components: {
-        UserMap,
-    },
-    computed: {
-        userMapData() {
-            return this.$store.state.userMapData.coords;
-        },
-        buildStats() {
-            if (this.$store.state.statistics.buildStats){
-                return [ { name: 'Count', data: this.$store.state.statistics.buildStats
-                    .map(({build: x, count})=>({count, x}))
-                    .map(({count: y, x})=>({y, x}))}];
-            }
-            return [];           
-        },  
-        versionStats() {
-            if (this.$store.state.statistics.versionStats){
-                return [ { name: 'Count', data: this.$store.state.statistics.versionStats
-                    .map(({version: x, count})=>({count, x}))
-                    .map(({count: y, x})=>({y, x}))}];
-            }
-            return [];           
-        }, 
-        sensorStats() {
-            if (this.$store.state.statistics.sensorStats){
-                return [ { name: 'Count', data: this.$store.state.statistics.sensorStats
-                    .map(({sensor: x, count})=>({count, x}))
-                    .map(({count: y, x})=>({y, x}))}];
-            }
-            return [];           
-        }, 
-        matrixStats() {
-            if (this.$store.state.statistics.matrixStats){
-                return [ { name: 'Count', data: this.$store.state.statistics.matrixStats
-                    .map(({matrix: x, count})=>({count, x}))
-                    .map(({count: y, x})=>({y, x}))}];
-            }
-            return [];           
-        }, 
-        countryStats() {
-            if (this.$store.state.statistics.countryStats){
-                return  this.$store.state.statistics.countryStats.map(x=> x.count) ;
-            }
-            return [];           
-        },
-        countryChartOptions(){
-            return { 
-                labels: this.$store.state.statistics.countryStats ? this.$store.state.statistics.countryStats.map(x=> x.country) : [],
-                theme: {
-                    mode: this.$vuetify.theme.dark ? 'dark' : 'light',
-                    palette: 'palette10',
-                },
-                chart: {
-                    background: '#00000000',
-                    dropShadow: {
-                        enabled: false,
-                    }
-                }, 
-                plotOptions: {
-                    pie: {                        
-                        expandOnClick: true,
-                        donut: {
-                            size: '0%',
-                            labels: {                               
-                                show: false,
-                            }
-                        }
-                    }
+    const store = useStore()
+
+    const statsError = computed(() => store.state.statistics.error)
+    const sendStatistics = computed(
+        () => store.state.config.configData.sendTelemetry
+    )
+    const userMapData = computed(
+        () => store.state.userMapData.coords || []
+    )
+
+    // Bar chart series
+    const buildStats = computed(() => {
+        const s = store.state.statistics.buildStats
+        return s
+            ? [{ name: 'Count', data: s.map(({ build: x, count }) => ({ x, y: count })) }]
+            : []
+    })
+    const versionStats = computed(() => {
+        const s = store.state.statistics.versionStats
+        return s
+            ? [{ name: 'Count', data: s.map(({ version: x, count }) => ({ x, y: count })) }]
+            : []
+    })
+    const sensorStats = computed(() => {
+        const s = store.state.statistics.sensorStats
+        return s
+            ? [{ name: 'Count', data: s.map(({ sensor: x, count }) => ({ x, y: count })) }]
+            : []
+    })
+    const matrixStats = computed(() => {
+        const s = store.state.statistics.matrixStats
+        return s
+            ? [{ name: 'Count', data: s.map(({ matrix: x, count }) => ({ x, y: count })) }]
+            : []
+    })
+
+    // Donut series and options
+    const countryStats = computed(() => {
+        const s = store.state.statistics.countryStats
+        return s ? s.map(({ count }) => count) : []
+    })
+    const countryChartOptions = computed(() => {
+        const s = store.state.statistics.countryStats
+        return {
+            labels: s ? s.map(({ country }) => country) : [],
+            theme: {
+                mode: store.state.config.darkMode ? 'dark' : 'light',
+                palette: 'palette10'
+            },
+            chart: { background: 'transparent', dropShadow: { enabled: false } },
+            plotOptions: {
+                pie: {
+                    expandOnClick: true,
+                    donut: { size: '0%', labels: { show: false } }
                 }
-            };
-        },
-        chartOptions(){
-            return {                
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        distributed: true,         
-                    },
-                },
-                dataLabels: {
-                    enabled: true,
-                },
-                legend: {
-                    show: false,
-                },
-                theme: {
-                    mode: this.$vuetify.theme.dark ? 'dark' : 'light',
-                    palette: 'palette10',
-                },
-                chart: {
-                    background: '#00000000',
-                    dropShadow: {
-                        enabled: false,
-                    }
-                } 
-            };
-        },  
-        statsError() {            
-            return this.$store.state.statistics.error;             
-        },  
-        sendStatistics(){
-            return this.$store.state.configData.sendTelemetry;
+            }
         }
-    },
-    methods: {       
-    },
-    watch: {        
-    },
-};
+    })
+
+    // General bar chart options
+    const chartOptions = computed(() => ({
+        plotOptions: { bar: { horizontal: false, distributed: true } },
+        dataLabels: { enabled: true },
+        legend: { show: false },
+        theme: {
+            mode: store.state.config.darkMode ? 'dark' : 'light',
+            palette: 'palette10'
+        },
+        chart: { background: 'transparent', dropShadow: { enabled: false } }
+    }))
 </script>
-<style>
-ul {
-    margin-top: 10px;
-}
-li {
-    margin-left: 20px;
-}
+
+<style scoped>
+    ul {
+        margin-top: 10px;
+    }
+    li {
+        margin-left: 20px;
+    }
 </style>
