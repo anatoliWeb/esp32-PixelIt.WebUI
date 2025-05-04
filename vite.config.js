@@ -20,6 +20,9 @@ export default defineConfig({
     // щоб ці файли теж копіювалися
     publicDir: path.resolve(__dirname, 'public'),
 
+    // скажімо, ти хочеш, щоб також піднімалися всі змінні, що починаються з "PIXELIT_"
+    envPrefix: ['VITE_', 'VUE_APP_', 'PIXELIT_'],
+
     build: {
         // виводимо фінальні файли в dist/ поруч з коренем проєкту
         outDir: path.resolve(__dirname, 'dist'),
@@ -52,7 +55,7 @@ export default defineConfig({
         vuetify({ autoImport: true }),
     ],
     server: {
-        port: 8081,
+        port: 8080,
         open: true,
     },
     optimizeDeps: {

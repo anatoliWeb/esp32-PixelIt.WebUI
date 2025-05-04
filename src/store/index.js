@@ -6,6 +6,7 @@ import telemetry from './modules/telemetry'
 import config from './modules/config'
 import matrix from './modules/matrix'
 import testarea from './modules/testarea'
+import statistics from './modules/statistics'
 
 const store = createStore({
     modules: {
@@ -13,7 +14,8 @@ const store = createStore({
         telemetry,
         config,
         matrix,
-        testarea
+        testarea,
+        statistics
     }
 })
 

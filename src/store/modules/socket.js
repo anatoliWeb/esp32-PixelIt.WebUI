@@ -54,6 +54,14 @@ const mutations = {
         if (message.liveview) {
             addToLiveviewData(message.liveview, store.state.matrix)
         }
+        // статистика
+        if (message.statistics) {
+            state.statistics = message.statistics;
+            // якщо в статистиці є координати карти
+            if (message.statistics.userMapData) {
+                state.userMapData = message.statistics.userMapData;
+            }
+        }
     },
     SOCKET_RECONNECT_ERROR(state) {
         state.reconnectError = true

@@ -14,10 +14,12 @@ import VueApexCharts from 'vue3-apexcharts'
 const app = createApp(App)
 
 // Глобальні змінні
-const pixelitHost = import.meta.env.VITE_PIXELIT_HOST || location.host
-const apiServerBaseURL = import.meta.env.VITE_API_SERVER || 'https://pixelit.bastelbunker.de/api'
+const pixelitHost = import.meta.env.VUE_APP_PIXELIT_HOST || location.host
+const pixelitSocketHost = import.meta.env.VUE_APP_PIXELIT_SOCKET_HOST || location.host
+const apiServerBaseURL = import.meta.env.VUE_APP_API_SERVER || 'https://pixelit.bastelbunker.de/api'
 
 app.config.globalProperties.$pixelitHost = pixelitHost
+app.config.globalProperties.$pixelitSocketHost = pixelitSocketHost
 app.config.globalProperties.$apiServerBaseURL = apiServerBaseURL
 app.config.globalProperties.$client = 'PixelIt-Webui'
 
@@ -29,10 +31,11 @@ app.use(VueCookies, { expire: '10y' })
 app.component('apexchart', VueApexCharts)
 
 // Підключення WebSocket або DEMO режим
-if (true || location.host.includes('.github.io') || import.meta.env.VITE_DEMO_MODE === 'true') {
+if (location.host.includes('.github.io') || import.meta.env.VUE_APP_DEMO_MODE === 'true') {
     const demoJSON = await import('../public/demoData/demo.json')
     // store.commit('SOCKET_ONMESSAGE', demoJSON.default)
     store.commit('socket/SOCKET_ONMESSAGE', demoJSON.default)
+    // Демо-режим:
     app.config.globalProperties.$demoMode = true
 } else {
     app.use(VueNativeSock, `ws://${pixelitHost}:81`, {
