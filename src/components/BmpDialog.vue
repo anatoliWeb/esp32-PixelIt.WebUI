@@ -1,10 +1,10 @@
 <template>
-    <v-dialog v-model="dialog" width="500">
-        <template #activator="{ on, attrs }">
+    <v-dialog v-model="dialog" persistent width="500">
+        <!-- ACTIVATOR SLOT -->
+        <template #activator="{ props }">
             <v-btn
                     icon
-                    v-bind="attrs"
-                    v-on="on"
+                    v-bind="props"
                     class="float-left"
                     title="More information"
             >
@@ -12,31 +12,37 @@
             </v-btn>
         </template>
 
+        <!-- DIALOG CONTENT -->
         <v-card>
-            <v-card-title>
-                <div class="text-center">
-                    {{ props.bmp.name }}
-                </div>
+            <v-card-title class="justify-center">
+                {{ bmp.name }}
             </v-card-title>
             <v-divider />
 
             <v-card-text>
-                <BmpCanvas
-                        class="float-right"
-                        :bmp="props.bmp"
-                        height="80"
-                        :width="props.bmp.sizeX === 8 ? '80' : '160'"
-                />
-                <p />
-                Icon-ID: {{ props.bmp.id }}<br />
-                Added by: {{ props.bmp.username }}<br />
-                Added on: {{ props.bmp.dateTime.split('T')[0] }}<br />
-                Animated: {{ props.bmp.animated ? 'Yes' : 'No' }}<br />
-                <br />
+                <div class="d-flex">
+                    <!-- Preview Canvas -->
+                    <BmpCanvas
+                            :bmp="bmp"
+                            height="80"
+                            :width="bmp.sizeX === 8 ? 80 : 160"
+                            class="me-4"
+                    />
+
+                    <!-- Metadata -->
+                    <div>
+                        <div><strong>Icon-ID:</strong> {{ bmp.id }}</div>
+                        <div><strong>Added by:</strong> {{ bmp.username }}</div>
+                        <div><strong>Added on:</strong> {{ bmp.dateTime.split('T')[0] }}</div>
+                        <div><strong>Animated:</strong> {{ bmp.animated ? 'Yes' : 'No' }}</div>
+                    </div>
+                </div>
+
                 <v-textarea
+                        class="mt-4"
                         filled
                         outlined
-                        v-model="props.bmp.rgB565Array"
+                        v-model="bmp.rgB565Array"
                         readonly
                         rows="8"
                 />
@@ -46,7 +52,7 @@
             <v-card-actions>
                 <v-spacer />
                 <v-btn color="primary" text @click="dialog = false">
-                    close
+                    Close
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -57,7 +63,8 @@
     import { ref } from 'vue'
     import BmpCanvas from './BmpCanvas.vue'
 
-    const props = defineProps({
+    // Прямо вичитуємо prop bmp
+    const { bmp } = defineProps({
         bmp: { type: Object, required: true }
     })
 
@@ -65,5 +72,10 @@
 </script>
 
 <style scoped>
-    /* додай свої стилі, якщо потрібно */
+    .float-left {
+        float: left;
+    }
+    .me-4 {
+        margin-right: 16px;
+    }
 </style>

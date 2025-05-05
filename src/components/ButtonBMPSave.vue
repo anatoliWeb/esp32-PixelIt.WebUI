@@ -1,15 +1,14 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="450">
-        <template #activator="{ on, attrs }">
+        <template #activator="{ props }">
             <v-btn
-                    :color="props.color"
-                    dark
-                    v-bind="attrs"
-                    v-on="on"
-                    :disabled="!props.condition"
+                    v-bind="props"
+                    :color="color"
+                    elevation="4"
+                    :disabled="!condition"
             >
-                <v-icon left>{{ props.icon }}</v-icon>
-                {{ props.text }}
+                <v-icon left>{{ icon }}</v-icon>
+                {{ text }}
             </v-btn>
         </template>
 
@@ -61,12 +60,13 @@
 
     // Props definition
     const props = defineProps({
-        color: String,
-        icon: String,
-        text: String,
+        color: { type: String, default: 'green' },
+        icon: { type: String, default: 'mdi-content-save' },
+        text: { type: String, default: 'Save' },
         data: String,
         pixelMode: Number,
-        condition: { type: Boolean, required: true }
+        condition: { type: Boolean, required: true },
+        onclick: Function
     })
 
     // Refs

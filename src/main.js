@@ -2,13 +2,18 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { createVuetify } from 'vuetify'
-import 'vuetify/styles'
+// import { createVuetify } from 'vuetify'
+// import 'vuetify/styles'
 import '/node_modules/@mdi/font/css/materialdesignicons.css'
 import VueCookies from 'vue-cookies'
 import { VueNativeSock } from 'vue-native-websocket-vue3'
 import 'leaflet/dist/leaflet.css'
 import VueApexCharts from 'vue3-apexcharts'
+import { createI18n } from 'vue-i18n'
+
+// Плагіни
+import vuetify from '@/plugins/vuetify'
+import { i18n } from '@/plugins/i18n'
 
 // Створення додатку
 const app = createApp(App)
@@ -26,9 +31,11 @@ app.config.globalProperties.$client = 'PixelIt-Webui'
 // Використання плагінів
 app.use(router)
 app.use(store)
-app.use(createVuetify())
+// app.use(createVuetify())
 app.use(VueCookies, { expire: '10y' })
 app.component('apexchart', VueApexCharts)
+app.use(vuetify)
+app.use(i18n)
 
 // Підключення WebSocket або DEMO режим
 if (location.host.includes('.github.io') || import.meta.env.VUE_APP_DEMO_MODE === 'true') {

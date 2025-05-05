@@ -6,15 +6,20 @@
         </v-navigation-drawer>
 
         <v-app-bar app>
+
             <v-app-bar-nav-icon @click="toggleDrawer" />
+
             <v-toolbar-title><b>PixelIt</b> - The Matrix Display</v-toolbar-title>
+
             <v-spacer />
+
             <v-toolbar-title
                     v-if="!isConnected && !isDemoMode"
                     class="text-center message"
             >
                 Reconnecting...
             </v-toolbar-title>
+
             <div
                     v-if="displayHostname"
                     class="hostname padded"
@@ -22,33 +27,40 @@
             >
                 {{ displayHostname }}
             </div>
+
             <v-icon
                     v-if="isConnected"
                     color="green"
-                    class="padded"
+                    class="mx-3 padded"
                     :title="`Connected to ${socketUrl}`"
             >
                 mdi-lan-connect
             </v-icon>
+
             <v-icon
                     v-if="isDemoMode"
                     color="green"
-                    class="padded"
+                    class="mx-3 padded"
                     title="Connected to demo data source"
             >
                 mdi-lan-connect
             </v-icon>
+
             <v-icon
                     v-if="!isConnected && !isDemoMode"
                     color="red"
-                    class="padded"
+                    class="mx-3 padded"
                     :title="`Disconnected from ${socketUrl}`"
             >
                 mdi-lan-disconnect
             </v-icon>
-            <v-btn icon @click="changeTheme" title="Change theme">
+
+            <LanguageSwitcher class="mx-3" />
+
+            <v-btn icon @click="changeTheme" title="Change theme" class="">
                 <v-icon>{{ darkMode ? 'mdi-brightness-4' : 'mdi-brightness-4' }}</v-icon>
             </v-btn>
+
         </v-app-bar>
 
         <v-main>
@@ -57,56 +69,38 @@
     </v-app>
 </template>
 
-<script>
-    import { computed, defineComponent, ref } from 'vue'
-    import { useStore } from 'vuex'
+<script setup>
     import NavLinks from './components/NavLinks.vue'
+    import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
+    import { useApp }       from '@/composables/useApp'
 
-    export default defineComponent({
-        name: 'App',
-        components: { NavLinks },
-        setup() {
-            const drawer = ref(true)
-            const store = useStore()
+    const {
+        drawer,
+        toggleDrawer,
+        changeTheme,
 
-            const toggleDrawer = () => {
-                drawer.value = !drawer.value
-            }
+        // socket module
+        isConnected,
+        socketUrl,
 
-            const changeTheme = () => {
-                store.commit('config/toggleTheme')
-            }
+        // config module
+        isDemoMode,
+        darkMode,
+        displayHostname,
+        navLinks,
+        version,
+        gitVersion,
+        gitDownloadUrl,
+        newVersionAvailable,
 
-            return {
-                drawer,
-                toggleDrawer,
-                changeTheme,
-                // socket module
-                isConnected: computed(() => store.state.socket.isConnected),
-                socketUrl: computed(() => store.state.socket.url),
+        // matrix module
+        logData,
+        sensorData,
+        buttonData,
 
-                // config module
-                isDemoMode: computed(() => store.state.config.isDemoMode),
-                darkMode: computed(() => store.state.config.darkMode),
-                displayHostname: computed(() => store.state.config.displayHostname),
-                navLinks: computed(() => store.state.config.navLinks),
-                version: computed(() => store.state.config.version),
-                gitVersion: computed(() => store.state.config.gitVersion),
-                gitDownloadUrl: computed(() => store.state.config.gitDownloadUrl),
-                newVersionAvailable: computed(
-                    () => store.state.config.newVersionAvailable
-                ),
-
-                // matrix module
-                logData: computed(() => store.state.matrix.logData),
-                sensorData: computed(() => store.state.matrix.sensorData),
-                buttonData: computed(() => store.state.matrix.buttonData),
-
-                // telemetry module
-                telemetryData: computed(() => store.state.telemetry.telemetryData)
-            }
-        }
-    })
+        // telemetry module
+        telemetryData
+    } = useApp()
 </script>
 
 <style>

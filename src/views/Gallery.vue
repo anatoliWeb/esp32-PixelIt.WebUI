@@ -72,10 +72,10 @@
 
     const message = ref('')
 
-    const isLoading = computed(() => store.state.bmpsFromAPI.length === 0)
+    const isLoading = computed(() => store.state.bmps.list.length === 0)
     const filteredBMPs = computed(() => {
         const msg = message.value.toLowerCase()
-        return store.state.bmpsFromAPI.filter(
+        return (store.state.bmps.list || []).filter(
             x => x.name.toLowerCase().includes(msg) || String(x.id) === message.value
         )
     })
@@ -86,10 +86,10 @@
         try {
             const data = await fetch('https://pixelit.bastelbunker.de/api/GetBMPAll')
                 .then(res => res.json())
-            store.commit('setBMPs', data)
+            store.commit('bmps/setBMPs', data)
         } catch (error) {
             console.error('getBMPsFromAPI error', error)
-            store.commit('setBMPs', [])
+            store.commit('bmps/setBMPs', [])
         }
     })
 

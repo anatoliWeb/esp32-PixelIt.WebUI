@@ -23,9 +23,33 @@
     let loopInterval = null
 
     // Розбір рядка RG565 масиву
-    function parseBmpArray(str) {
-        const s = str.endsWith(',') ? str.slice(0, -1) : str
-        return JSON.parse(`[${s}]`)
+    function parseBmpArray(raw) {
+        // 1) Обрізаємо пробіли й зайві кінцеві коми
+        let s = (raw || '').trim()
+            .replace(/]\s*\[/g, '],[')   // якщо було '][', стає '],['
+            .replace(/,\s*$/, '')        // прибираємо кінцеву кому
+
+        try {
+            // 2) Якщо вже масив масивів [[...],[...],...]
+            if (s.startsWith('[[') && s.endsWith(']]')) {
+                return JSON.parse(s)
+            }
+            // 3) Якщо маємо кілька масивів у рядку, розділених комами
+            if (s.includes('],[')) {
+                // обгортаємо в зовнішній масив: '[a],[b]' → '[[a],[b]]'
+                return JSON.parse('[' + s + ']')
+            }
+            // 4) Якщо один простий масив чисел "[...]" → обгортаємо у "[[...]]"
+            if (s.startsWith('[') && s.endsWith(']')) {
+                const inner = s.slice(1, -1)
+                return JSON.parse('[[' + inner + ']]')
+            }
+            console.warn('BmpCanvas: невідомий формат rgB565Array:', s)
+            return []
+        } catch (e) {
+            console.error('BmpCanvas.parseBmpArray: помилка парсингу:', s, e)
+            return []
+        }
     }
 
     // Малюємо один кадр
@@ -42,8 +66,9 @@
 
         for (let y = startY; y < heightCount; y++) {
             for (let x = 0; x < widthCount; x++) {
-                const rgb = RGB565IntToRGB(data[idx++])
-                ctx.fillStyle = RGBToHEX(rgb[0], rgb[1], rgb[2])
+                const val = data[idx++] || 0
+                const [r, g, b] = RGB565IntToRGB(val)
+                ctx.fillStyle = RGBToHEX(r, g, b)
                 ctx.fillRect(x * size, y * size, size, size)
             }
         }
@@ -52,6 +77,12 @@
     // Запуск циклу малювання
     function startDrawing() {
         const frames = parseBmpArray(props.bmp.rgB565Array)
+
+        if (!frames.length) return
+
+        // Очистити попередній інтервал
+        if (loopInterval) clearInterval(loopInterval)
+
         if (frames.length > 1) {
             let idx = 0
             loopInterval = setInterval(() => {
