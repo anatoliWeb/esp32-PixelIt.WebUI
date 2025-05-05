@@ -13,7 +13,7 @@ import { createI18n } from 'vue-i18n'
 
 // Плагіни
 import vuetify from '@/plugins/vuetify'
-import { i18n } from '@/plugins/i18n'
+import { setupI18n } from '@/plugins/i18n'
 
 // Створення додатку
 const app = createApp(App)
@@ -35,7 +35,9 @@ app.use(store)
 app.use(VueCookies, { expire: '10y' })
 app.component('apexchart', VueApexCharts)
 app.use(vuetify)
-app.use(i18n)
+
+// викликаємо нашу функцію — вона зареєструє плагін і подбає про localStorage
+setupI18n(app)
 
 // Підключення WebSocket або DEMO режим
 if (location.host.includes('.github.io') || import.meta.env.VUE_APP_DEMO_MODE === 'true') {
