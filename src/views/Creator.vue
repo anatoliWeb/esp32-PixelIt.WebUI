@@ -4,11 +4,11 @@
             <v-col cols="12">
                 <v-bottom-navigation :value="pixelMode" color="primary">
                     <v-btn @click="changePixelModeTo8x8">
-                        <span>8x8 Pixel</span>
+                        <span>{{$t("gallery.mode8x8")}}</span>
                         <v-icon>mdi-grid</v-icon>
                     </v-btn>
                     <v-btn @click="changePixelModeTo8x32">
-                        <span>8x32 Pixel</span>
+                        <span>{{$t("gallery.mode8x32")}}</span>
                         <v-icon>mdi-grid</v-icon>
                     </v-btn>
                 </v-bottom-navigation>
@@ -32,13 +32,13 @@
                     />
                     <v-switch
                             v-model="livedraw"
-                            label="Live draw"
+                            :label="$t('gallery.liveDraw')"
                             hide-details dense
                     />
                     <div class="text-center">
                         <ButtonSave
                                 color="green"
-                                text="Save"
+                                :text="$t('gallery.save')"
                                 icon="mdi-content-save"
                                 :data="array8x8String"
                                 :pixelMode="pixelMode"
@@ -77,14 +77,14 @@
                     />
                     <v-switch
                             v-model="livedraw"
-                            label="Live draw"
+                            :label="$t('gallery.liveDraw')"
                             :disabled="!sockedIsConnected"
                             hide-details dense
                     />
                     <div v-if="isAnimated" class="text-center">
                         <v-card-text>
                             <h3 class="red--text">
-                                No animated 8x32 bitmaps are supported!
+                                {{$t("gallery.animatedWarning")}}
                             </h3>
                         </v-card-text>
                     </div>
@@ -92,6 +92,7 @@
                         <ButtonSave
                                 color="green"
                                 text="Save"
+                                :text="$t('gallery.save')"
                                 icon="mdi-content-save"
                                 :data="array8x32String"
                                 :pixelMode="pixelMode"

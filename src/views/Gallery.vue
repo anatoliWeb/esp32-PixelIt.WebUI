@@ -11,14 +11,14 @@
                         filled
                         hide-details
                         auto-grow
-                        label="Search for name or ID"
+                        :label="$t('gallery.searchLabel')"
                         type="text"
                 />
             </v-col>
 
             <v-col v-if="isLoading" cols="12" class="text-center">
                 <fold :loading="isLoading" />
-                Loading...
+                {{$t('gallery.loading')}}
             </v-col>
 
             <v-col v-for="bmp in filteredBMPs" :key="bmp.id" cols="6" lg="2">
@@ -35,7 +35,7 @@
                                 @click="sendBitmap(bmp.rgB565Array, bmp.sizeX)"
                                 :disabled="!isConnected"
                                 class="float-right"
-                                title="Show on PixelIt"
+                                :title="$t('gallery.showOnDevice')"
                         >
                             <v-icon>mdi-arrow-right-circle-outline</v-icon>
                         </v-btn>

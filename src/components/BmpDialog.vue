@@ -6,7 +6,7 @@
                     icon
                     v-bind="props"
                     class="float-left"
-                    title="More information"
+                    :title="$t('bmpDialog.moreInfo')"
             >
                 <v-icon>mdi-information-outline</v-icon>
             </v-btn>
@@ -31,10 +31,10 @@
 
                     <!-- Metadata -->
                     <div>
-                        <div><strong>Icon-ID:</strong> {{ bmp.id }}</div>
-                        <div><strong>Added by:</strong> {{ bmp.username }}</div>
-                        <div><strong>Added on:</strong> {{ bmp.dateTime.split('T')[0] }}</div>
-                        <div><strong>Animated:</strong> {{ bmp.animated ? 'Yes' : 'No' }}</div>
+                        <div><strong>{{$t("bmpDialog.iconId")}}:</strong> {{ bmp.id }}</div>
+                        <div><strong>{{$t("bmpDialog.addedBy")}}:</strong> {{ bmp.username }}</div>
+                        <div><strong>{{$t("bmpDialog.addedOn")}}:</strong> {{ bmp.dateTime.split('T')[0] }}</div>
+                        <div><strong>{{$t("bmpDialog.animated")}}:</strong> {{ bmp.animated ? $t("bmpDialog.yes") : $t("bmpDialog.no")}}</div>
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
             <v-card-actions>
                 <v-spacer />
                 <v-btn color="primary" text @click="dialog = false">
-                    Close
+                    $t('bmpDialog.close')
                 </v-btn>
             </v-card-actions>
         </v-card>

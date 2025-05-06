@@ -202,5 +202,73 @@
       },
       "actionsTitle": "Button actions"
     }
+  },
+  "statistics": {
+    "demoNotice": "You are currently in demo mode — real hardware is not connected.",
+    "activateTitle": "Activate the telemetry data to see the statistics.",
+    "activateText": "To activate the telemetry data, go to",
+    "activateLink": "Options and activate \"Send Telemetry data\"",
+    "activateNote": "After activation, it can take up to one minute for the data to become visible.",
+    "thanks": "These statistics are created with the telemetry data of the PixelIts that have reported in the last 30 days.",
+    "thanksNote": "Thanks to everyone who shares this data with us!",
+    "boards": "Boards",
+    "versions": "Versions",
+    "sensors": "Sensors",
+    "countries": "Countries",
+    "matrixTypes": "Matrix Types",
+    "usermap": "Usermap"
+  },
+  "update": {
+    "firmware": "Firmware",
+    "filesystem": "Filesystem",
+    "configTitle": "Configuration",
+    "selectFirmware": "Select firmware upload",
+    "selectFilesystem": "Select filesystem upload",
+    "selectConfig": "Select configuration file",
+    "updateFirmware": "Update Firmware",
+    "updateFilesystem": "Update Filesystem",
+    "configBackupRestore": "Configuration backup and restore",
+    "restore": "Restore",
+    "backup": "Backup",
+    "downloadStats": "Download Stats",
+    "warningTitle": "Warning, please note!",
+    "warningMessage": "Should the configuration backup still be restored on this PixelIt?",
+    "ignoreAndRestore": "Ignore and Restore",
+    "cancel": "Cancel"
+  },
+  "gallery": {
+    "mode8x8": "8x8 Pixel",
+    "mode8x32": "8x32 Pixel",
+    "liveDraw": "Live draw",
+    "save": "Save",
+    "animatedWarning": "No animated 8x32 bitmaps are supported!",
+    "searchLabel": "Search for name or ID",
+    "loading": "Loading...",
+    "showOnDevice": "Show on PixelIt"
+  },
+  "bmpDialog": {
+    "moreInfo": "More information",
+    "iconId": "Icon ID",
+    "addedBy": "Added by",
+    "addedOn": "Added on",
+    "animated": "Animated",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close"
+  },
+  "btnBmpSave": {
+    "title": "Save Bitmap?",
+    "nameLabel": "Bitmap Name",
+    "usernameLabel": "Your Username",
+    "save": "Save into Database",
+    "cancel": "Abort"
+  },
+  "colorPickerTextField": {
+    "label": "Color",
+    "hint": "Click the box on the left"
+  },
+  "downloadStats": {
+    "title": "Downloads",
+    "notes": "Release notes"
   }
 }

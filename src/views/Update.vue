@@ -6,7 +6,7 @@
                 <v-row>
                     <v-col cols="12" lg="6">
                         <v-card class="pa-2" elevation="4">
-                            <v-card-title><h2>Firmware</h2></v-card-title>
+                            <v-card-title><h2>{{ $t('update.firmware') }}</h2></v-card-title>
                             <hr />
                             <br />
                             <div class="text-center">
@@ -16,13 +16,13 @@
                                         show-size
                                         filled
                                         accept=".bin"
-                                        label="Select firmware upload"
+                                        :label="$t('update.selectFirmware')"
                                         dense
                                 />
                                 <ButtonCondition
                                         color="success"
                                         :condition="sockedIsConnected && inputFWCheck"
-                                        text="Update Firmware"
+                                        :text="$t('update.updateFirmware')"
                                         icon="mdi-file-upload"
                                         :onclick="uploadFirmware"
                                 />
@@ -32,7 +32,7 @@
 
                     <v-col cols="12" lg="6">
                         <v-card class="pa-2" elevation="4">
-                            <v-card-title><h2>Filesystem</h2></v-card-title>
+                            <v-card-title><h2>{{ $t('update.filesystem') }}</h2></v-card-title>
                             <hr />
                             <br />
                             <div class="text-center">
@@ -42,13 +42,13 @@
                                         show-size
                                         filled
                                         accept=".bin"
-                                        label="Select filesystem upload"
+                                        :label="$t('update.selectFilesystem')"
                                         dense
                                 />
                                 <ButtonCondition
                                         color="success"
                                         :condition="sockedIsConnected && inputFSCheck"
-                                        text="Update Filesystem"
+                                        :text="$t('update.updateFilesystem')"
                                         icon="mdi-file-upload"
                                         :onclick="uploadFilesystem"
                                 />
@@ -62,7 +62,7 @@
                     <v-col cols="12">
                         <v-card class="pa-0" elevation="4">
                             <v-card-text class="text-md-center">
-                                <h2>Configuration backup and restore</h2>
+                                <h2>{{ $t('update.configBackupRestore') }}</h2>
                             </v-card-text>
                         </v-card>
                     </v-col>
@@ -71,7 +71,7 @@
                 <v-row>
                     <v-col cols="12">
                         <v-card class="pa-2" elevation="4">
-                            <v-card-title><h2>Configuration</h2></v-card-title>
+                            <v-card-title><h2>{{ $t('update.configTitle') }}</h2></v-card-title>
                             <hr />
                             <br />
                             <div class="text-center">
@@ -81,13 +81,13 @@
                                         show-size
                                         filled
                                         accept=".json"
-                                        label="Select configuration file"
+                                        :label="$t('update.selectConfig')"
                                         dense
                                 />
                                 <ButtonCondition
                                         color="warning"
                                         :condition="sockedIsConnected && inputConfigCheck"
-                                        text="Restore"
+                                        :text="$t('update.restore')"
                                         icon="mdi-file-upload"
                                         :onclick="uploadConfigWithWarnings"
                                 />
@@ -95,7 +95,7 @@
                                 <ButtonCondition
                                         color="success"
                                         :condition="sockedIsConnected"
-                                        text="Backup"
+                                        :text="$t('update.backup')"
                                         icon="mdi-file-download"
                                         :onclick="downloadConfig"
                                 />
@@ -108,7 +108,7 @@
             <!-- Download Stats -->
             <v-col cols="12" lg="4">
                 <v-card class="pa-2" elevation="4">
-                    <v-card-title><h2>Download Stats</h2></v-card-title>
+                    <v-card-title><h2>{{ $t('update.downloadStats') }}</h2></v-card-title>
                     <hr />
                     <DownloadStats :items="gitReleases" />
                 </v-card>
@@ -119,22 +119,22 @@
         <v-dialog v-model="popupIsActive" max-width="500">
             <v-card>
                 <v-card-title class="headline orange--text">
-                    Warning, please note!
+                    {{ $t('update.warningTitle') }}
                 </v-card-title>
                 <v-card-text>
                     <div v-for="warning in restoreWarnings" :key="warning">
                         {{ warning }}
                     </div>
                     <br />
-                    Should the configuration backup still be restored on this PixelIt?
+                    {{ $t('update.warningMessage') }}
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer />
                     <v-btn color="orange" text @click="uploadConfigWithWarnings">
-                        Ignore and Restore
+                        {{ $t('update.ignoreAndRestore') }}
                     </v-btn>
                     <v-btn color="green" text @click="popupIsActive = false">
-                        Cancel
+                        {{ $t('update.cancel') }}
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -157,7 +157,7 @@
     const firmwareFile = ref(null)
     const filesystemFile = ref(null)
     const configFile = ref(null)
-    const popupIsActive = ref(false)
+    let popupIsActive = ref(false)
     const ignoreRestoreWarnings = ref(false)
     const restoreWarnings = ref([])
 

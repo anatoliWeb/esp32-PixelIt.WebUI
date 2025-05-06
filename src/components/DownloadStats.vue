@@ -15,7 +15,7 @@
                     </v-badge>
                 </v-list-item-title>
 
-                <span class="header">Downloads:</span><br />
+                <span class="header">{{$t('downloadStats.title')}}:</span><br />
                 <v-list-item-subtitle
                         class="details"
                         v-for="fwdownload in item.fwdownloads"
@@ -25,7 +25,7 @@
                     <span class="downloads">{{ fwdownload.downloads }}</span>
                 </v-list-item-subtitle>
 
-                <span class="header">Release notes:</span><br />
+                <span class="header">{{$t('downloadStats.notes')}}:</span><br />
                 <v-list-item-subtitle
                         class="details"
                         v-for="releaseNote in item.releaseNoteArray"

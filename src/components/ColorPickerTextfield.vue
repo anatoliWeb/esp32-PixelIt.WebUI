@@ -1,9 +1,9 @@
 <template>
     <v-text-field
             v-model="color"
-            label="Color"
+            $label="$t('colorPickerTextField.label')"
             readonly
-            hint="click the box on the left"
+            :hint="$t('colorPickerTextField.hint')"
             class="align-center"
             full-width
     >

@@ -1,7 +1,7 @@
 <template>
     <v-container class="statistics">
         <v-alert v-if="$demoMode" type="info">
-            Ви зараз в демо-режимі — справжнє обладнання не підключено.
+            {{$t("statistics.demoNotice")}}
         </v-alert>
 
         <div v-if="statsError || !sendStatistics">
@@ -10,15 +10,15 @@
                     <v-card class="pa-2" elevation="4">
                         <v-card-text class="text-md-center">
                             <h2>
-                                Activate the telemetry data to see the statistics.
+                                {{$t("statistics.activateTitle")}}
                             </h2>
                             <br />
                             <h4>
-                                To activate the telemetry data, go to
-                                <a href="/#/options"><b>Options</b> and activate <b>"Send Telemetry data"</b></a>
+                                {{$t("statistics.activateText")}}
+                                <a href="/#/options">{{$t("statistics.activateLink")}}</a>
                             </h4>
                             <small>
-                                After activation, it can take up to one minute for the data to become visible.
+                                {{$t("statistics.activateNote")}}
                             </small>
                         </v-card-text>
                     </v-card>
@@ -30,10 +30,9 @@
                 <v-col cols="12">
                     <v-card class="pa-2" elevation="4">
                         <v-card-text class="text-md-center">
-                            These statistics are created with the telemetry data of the
-                            PixelIts that have reported in the last 30 days.
+                            {{$t("statistics.thanks")}}
                             <br />
-                            <b>Thanks to everyone who shares this data with us!</b>
+                            <b>{{$t("statistics.thanksNote")}}</b>
                         </v-card-text>
                     </v-card>
                 </v-col>
@@ -42,7 +41,7 @@
             <v-row>
                 <v-col cols="12" lg="4">
                     <v-card class="pa-1" elevation="4">
-                        <v-card-title><h2>Boards</h2></v-card-title>
+                        <v-card-title><h2>{{$t("statistics.boards")}}</h2></v-card-title>
                         <hr />
                         <apex-chart
                                 height="600px"
@@ -56,7 +55,7 @@
 
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Versions</h2></v-card-title>
+                        <v-card-title><h2>{{$t("statistics.versions")}}</h2></v-card-title>
                         <hr />
                         <apex-chart
                                 height="600px"
@@ -70,7 +69,7 @@
 
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Sensors</h2></v-card-title>
+                        <v-card-title><h2>{{$t("statistics.sensors")}}</h2></v-card-title>
                         <hr />
                         <apex-chart
                                 height="600px"
@@ -86,7 +85,7 @@
             <v-row>
                 <v-col cols="12" lg="8">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Countries</h2></v-card-title>
+                        <v-card-title><h2>{{$t("statistics.countries")}}</h2></v-card-title>
                         <hr />
                         <apex-chart
                                 height="600px"
@@ -99,7 +98,7 @@
 
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Matrix Types</h2></v-card-title>
+                        <v-card-title><h2>{{$t("statistics.matrixTypes")}}</h2></v-card-title>
                         <hr />
                         <apex-chart
                                 height="600px"
@@ -115,7 +114,7 @@
             <v-row>
                 <v-col cols="12">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Usermap</h2></v-card-title>
+                        <v-card-title><h2>{{$t("statistics.usermap")}}</h2></v-card-title>
                         <hr />
                         <user-map :coords="userMapData" :mapZoom="3" height="600px" />
                     </v-card>

@@ -15,21 +15,21 @@
         <v-card>
             <v-form v-model="isValid">
                 <v-card-title class="text-h5">
-                    Save Bitmap?
+                    {{$t('btnBmpSave.title')}}
                 </v-card-title>
 
                 <v-card-text>
                     <v-text-field
                             ref="field"
                             v-model="bitmapName"
-                            label="Bitmap Name"
+                            :label="$t('btnBmpSave.nameLabel')"
                             :rules="[rules.required, rules.notStartsWithSpace]"
                     />
 
                     <v-text-field
                             v-model="userName"
                             @change="changeUserName"
-                            label="Your Username"
+                            :label="$t('btnBmpSave.usernameLabel')"
                             :rules="[rules.notStartsWithSpace]"
                     />
                 </v-card-text>
@@ -42,11 +42,11 @@
                             @click="agreeWrapper"
                             :disabled="!isValid || (getSizeX === 32 && isAnimated)"
                     >
-                        Save into Database
+                        {{$t("btnBmpSave.save")}}
                     </v-btn>
 
                     <v-btn color="red darken-1" text @click="disagreeWrapper">
-                        Abort
+                        {{$t("btnBmpSave.cancel")}}
                     </v-btn>
                 </v-card-actions>
             </v-form>
