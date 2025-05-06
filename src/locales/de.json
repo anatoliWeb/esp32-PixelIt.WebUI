@@ -1,6 +1,31 @@
 {
-  "hello": "Hello",
-  "save": "Save",
-  "options": "Options",
-  "gallery": "Gallery"
+  "app": {
+    "title":          "Matrixanzeige"
+  },
+  "status": {
+    "reconnecting":   "Verbindung wiederherstellen..."
+  },
+  "tooltip": {
+    "hostname":       "Name des Hosts: {host}",
+    "connected":      "Verbunden mit {url}",
+    "connectedDemo":  "Verbunden mit der Demo-Datenquelle",
+    "disconnected":   "Getrennt von {url}"
+  },
+  "button": {
+    "changeTheme":    "Thema ändern"
+  },
+  "nav": {
+    "dashboard":       "Übersicht",
+    "options":         "Optionen",
+    "sensorsButtons":  "Sensoren & Tasten",
+    "testArea":        "Testbereich",
+    "statistics":      "Statistiken",
+    "updateBackup":    "Aktualisierung & Backup",
+    "pixelGallery":    "Pixel-Galerie",
+    "pixelCreator":    "Pixel-Ersteller",
+    "forum":           "Forum",
+    "blog":            "Blog",
+    "documentation":   "Dokumentation",
+    "github":          "GitHub"
+  }
 }

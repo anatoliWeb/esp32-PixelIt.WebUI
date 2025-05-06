@@ -1,21 +1,23 @@
+// store/modules/config.js
+
 const state = () => ({
     // старі configData
     configData: {},
     // навігація
     navLinks: [
-        { title: 'Dashboard', icon: 'mdi-memory', page: '/' },
-        { title: 'Options', icon: 'mdi-tune-vertical', page: '/options' },
-        { title: 'Sensors & Buttons', icon: 'mdi-gesture-tap-button', page: '/sensorsbuttons' },
-        { title: 'Test Area', icon: 'mdi-cube-outline', page: '/testarea' },
-        { title: 'Statistics', icon: 'mdi-chart-bar', page: '/statistics' },
-        { title: 'Update & Backup', icon: 'mdi-tray-arrow-up', page: '/update' },
+        { titleKey: 'nav.dashboard', title: 'Dashboard', icon: 'mdi-memory', page: '/' },
+        { titleKey: 'nav.options',  title: 'Options', icon: 'mdi-tune-vertical', page: '/options' },
+        { titleKey: 'nav.sensorsButtons',  title: 'Sensors & Buttons', icon: 'mdi-gesture-tap-button', page: '/sensorsbuttons' },
+        { titleKey: 'nav.testArea', title: 'Test Area', icon: 'mdi-cube-outline', page: '/testarea' },
+        { titleKey: 'nav.statistics', title: 'Statistics', icon: 'mdi-chart-bar', page: '/statistics' },
+        { titleKey: 'nav.updateBackup', title: 'Update & Backup', icon: 'mdi-tray-arrow-up', page: '/update' },
         { separator: true },
-        { title: 'Pixel Gallery', icon: 'mdi-image-outline', page: '/gallery' },
-        { title: 'Pixel Creator', icon: 'mdi-pencil-box-outline', page: '/creator' },
-        { title: 'Forum', icon: 'mdi-forum-outline', url: 'https://github.com/pixelit-project/PixelIt/discussions', target: '_blank' },
-        { title: 'Blog', icon: 'mdi-post-outline', url: 'https://www.bastelbunker.de/pixel-it/', target: '_blank' },
-        { title: 'Documentation', icon: 'mdi-book-open-page-variant-outline', url: 'https://pixelit-project.github.io/', target: '_blank' },
-        { title: 'GitHub', icon: 'mdi-github', url: 'https://github.com/pixelit-project/PixelIt', target: '_blank' }
+        { titleKey: 'nav.pixelGallery', title: 'Pixel Gallery', icon: 'mdi-image-outline', page: '/gallery' },
+        { titleKey: 'nav.pixelCreator', title: 'Pixel Creator', icon: 'mdi-pencil-box-outline', page: '/creator' },
+        { titleKey: 'nav.forum', title: 'Forum', icon: 'mdi-forum-outline', url: 'https://github.com/pixelit-project/PixelIt/discussions', target: '_blank' },
+        { titleKey: 'nav.blog', title: 'Blog', icon: 'mdi-post-outline', url: 'https://www.bastelbunker.de/pixel-it/', target: '_blank' },
+        { titleKey: 'nav.documentation', title: 'Documentation', icon: 'mdi-book-open-page-variant-outline', url: 'https://pixelit-project.github.io/', target: '_blank' },
+        { titleKey: 'nav.github', title: 'GitHub', icon: 'mdi-github', url: 'https://github.com/pixelit-project/PixelIt', target: '_blank' }
     ],
     rules: {
         required: value => (!!value && String(value).trim().length > 0) || value == '0' || 'Required.',
@@ -34,50 +36,53 @@ const state = () => ({
         noDecimals: value => value % 1 === 0 || 'No decimals allowed'
     },
     matrixTypes: [
-        { text: 'Type 1 - Column major', value: 1 },
-        { text: 'Type 2 - Row major', value: 2 },
-        { text: 'Type 3 - Tiled 4×8 CJMCU (Column major)', value: 3 },
-        { text: 'Type 5 - Tiled 4×8 CJMCU (Row major)', value: 5 },
-        { text: 'Type 4 - MicroMatrix ᵇʸ ᶠᵒᵒʳˢᶜʰᵗᵇᴀʀ', value: 4 }
+        { textKey: "matrixTypes.1", text: 'Type 1 - Column major', value: 1 },
+        { textKey: "matrixTypes.2", text: 'Type 2 - Row major', value: 2 },
+        { textKey: "matrixTypes.3", text: 'Type 3 - Tiled 4×8 CJMCU (Column major)', value: 3 },
+        { textKey: "matrixTypes.4", text: 'Type 5 - Tiled 4×8 CJMCU (Row major)', value: 5 },
+        { textKey: "matrixTypes.5", text: 'Type 4 - MicroMatrix ᵇʸ ᶠᵒᵒʳˢᶜʰᵗᵇᴀʀ', value: 4 }
     ],
     matrixCorrection: [
-        { text: 'Default', value: 'default' },
-        { text: 'Typical SMD 5050', value: 'typicalsmd5050' },
-        { text: 'Typical 8mm Pixel', value: 'typical8mmpixel' },
-        { text: 'Tungsten 40W', value: 'tungsten40w' },
-        { text: 'Tungsten 100W', value: 'tungsten100w' },
-        { text: 'Halogen', value: 'halogen' },
-        { text: 'Carbon Arc', value: 'carbonarc' },
-        { text: 'High Noon Sun', value: 'highnoonsun' },
-        { text: 'Direct Sunlight', value: 'directsunlight' },
-        { text: 'Overcast Sky', value: 'overcastsky' },
-        { text: 'Clear Blue Sky', value: 'clearbluesky' },
-        { text: 'Warm Fluorescent', value: 'warmfluorescent' },
-        { text: 'Standard Fluorescent', value: 'standardfluorescent' },
-        { text: 'Cool White Fluorescent', value: 'coolwhitefluorescent' },
-        { text: 'Full Spectrum Fluorescent', value: 'fullspectrumfluorescent' },
-        { text: 'Grow Light Fluorescent', value: 'growlightfluorescent' },
-        { text: 'Black Light Fluorescent', value: 'blacklightfluorescent' },
-        { text: 'Mercury Vapor', value: 'mercuryvapor' },
-        { text: 'Sodium Vapor', value: 'sodiumvapor' },
-        { text: 'Metal Halide', value: 'metalhalide' },
-        { text: 'High Pressure Sodium', value: 'highpressuresodium' }
+        { textKey: "matrixCorrection.default", text: 'Default', value: 'default' },
+        { textKey: "matrixCorrection.typicalsmd5050", text: 'Typical SMD 5050', value: 'typicalsmd5050' },
+        { textKey: "matrixCorrection.typical8mmpixel", text: 'Typical 8mm Pixel', value: 'typical8mmpixel' },
+        { textKey: "matrixCorrection.tungsten40w", text: 'Tungsten 40W', value: 'tungsten40w' },
+        { textKey: "matrixCorrection.tungsten100w", text: 'Tungsten 100W', value: 'tungsten100w' },
+        { textKey: "matrixCorrection.halogen", text: 'Halogen', value: 'halogen' },
+        { textKey: "matrixCorrection.carbonarc", text: 'Carbon Arc', value: 'carbonarc' },
+        { textKey: "matrixCorrection.highnoonsun", text: 'High Noon Sun', value: 'highnoonsun' },
+        { textKey: "matrixCorrection.directsunlight", text: 'Direct Sunlight', value: 'directsunlight' },
+        { textKey: "matrixCorrection.overcastsky", text: 'Overcast Sky', value: 'overcastsky' },
+        { textKey: "matrixCorrection.clearbluesky", text: 'Clear Blue Sky', value: 'clearbluesky' },
+        { textKey: "matrixCorrection.warmfluorescent", text: 'Warm Fluorescent', value: 'warmfluorescent' },
+        { textKey: "matrixCorrection.standardfluorescent", text: 'Standard Fluorescent', value: 'standardfluorescent' },
+        { textKey: "matrixCorrection.coolwhitefluorescent", text: 'Cool White Fluorescent', value: 'coolwhitefluorescent' },
+        { textKey: "matrixCorrection.fullspectrumfluorescent", text: 'Full Spectrum Fluorescent', value: 'fullspectrumfluorescent' },
+        { textKey: "matrixCorrection.growlightfluorescent", text: 'Grow Light Fluorescent', value: 'growlightfluorescent' },
+        { textKey: "matrixCorrection.blacklightfluorescent", text: 'Black Light Fluorescent', value: 'blacklightfluorescent' },
+        { textKey: "matrixCorrection.mercuryvapor", text: 'Mercury Vapor', value: 'mercuryvapor' },
+        { textKey: "matrixCorrection.sodiumvapor", text: 'Sodium Vapor', value: 'sodiumvapor' },
+        { textKey: "matrixCorrection.metalhalide", text: 'Metal Halide', value: 'metalhalide' },
+        { textKey: "matrixCorrection.highpressuresodium", text: 'High Pressure Sodium', value: 'highpressuresodium' }
     ],
     autoFallbackAnimation: [
-        { text: 'None', value: 0 },
-        { text: 'Fade', value: 1 },
-        { text: 'Colored Bar Wipe', value: 2 },
-        { text: 'ZigZag Wipe', value: 3 },
-        { text: 'Random Wipe', value: 4 }
+        { textKey: "autoFallbackAnimation.0", text: 'None', value: 0 },
+        { textKey: "autoFallbackAnimation.1", text: 'Fade', value: 1 },
+        { textKey: "autoFallbackAnimation.2", text: 'Colored Bar Wipe', value: 2 },
+        { textKey: "autoFallbackAnimation.3", text: 'ZigZag Wipe', value: 3 },
+        { textKey: "autoFallbackAnimation.4", text: 'Random Wipe', value: 4 }
     ],
     temperatureUnits: [
-        { text: 'Celsius °C', value: 0 },
-        { text: 'Fahrenheit °F', value: 1 }
+        { textKey: "temperatureUnits.0", text: 'Celsius °C', value: 0 },
+        { textKey: "temperatureUnits.1", text: 'Fahrenheit °F', value: 1 }
     ],
     ldrDevices: [
-        { text: 'GL5516', value: 'GL5516' }, { text: 'GL5528', value: 'GL5528' },
-        { text: 'GL5537_1', value: 'GL5537_1' }, { text: 'GL5537_2', value: 'GL5537_2' },
-        { text: 'GL5539', value: 'GL5539' }, { text: 'GL5549', value: 'GL5549' }
+        { textKey: "ldrDevices.GL5516", text: 'GL5516', value: 'GL5516' },
+        { textKey: "ldrDevices.GL5528",text: 'GL5528', value: 'GL5528' },
+        { textKey: "ldrDevices.GL5537_1",text: 'GL5537_1', value: 'GL5537_1' },
+        { textKey: "ldrDevices.GL5537_2",text: 'GL5537_2', value: 'GL5537_2' },
+        { textKey: "ldrDevices.GL5539",text: 'GL5539', value: 'GL5539' },
+        { textKey: "ldrDevices.GL5549",text: 'GL5549', value: 'GL5549' }
     ],
     /**
      * Зірочкою відмічено D0, D3, D4 та D8 — підключення до них може завадити нормальному старту модуля.
@@ -133,13 +138,16 @@ const state = () => ({
         { text: 'GPIO39 (ADC1_CH3)',  value: 'GPIO39' }
     ],
     btnLowHigh: [
-        { text: 'Active low', value: 0 }, { text: 'Active high', value: 1 }
+        { textKey: "btnLowHigh.0",  text: 'Active low', value: 0 },
+        { textKey: "btnLowHigh.1",  text: 'Active high', value: 1 }
     ],
     btnActions: [
-        { text: 'None (only send to MQTT and API)', value: 0 },
-        { text: 'Go to Clock', value: 1 }, { text: 'Toggle Sleep Mode', value: 2 },
-        { text: 'MP3: Toggle Play/Pause', value: 3 },
-        { text: 'MP3: Previous track', value: 4 }, { text: 'MP3: Next track', value: 5 }
+        { textKey: "btnActions.0", text: 'None (only send to MQTT and API)', value: 0 },
+        { textKey: "btnActions.1", text: 'Go to Clock', value: 1 },
+        { textKey: "btnActions.2", text: 'Toggle Sleep Mode', value: 2 },
+        { textKey: "btnActions.3", text: 'MP3: Toggle Play/Pause', value: 3 },
+        { textKey: "btnActions.4", text: 'MP3: Previous track', value: 4 },
+        { textKey: "btnActions.5", text: 'MP3: Next track', value: 5 }
     ],
     gitVersion: '',
     version: '',
@@ -147,7 +155,7 @@ const state = () => ({
     gitReleases: [],
     newVersionAvailable: false,
     displayHostname: '',
-    darkMode: true
+    darkMode: JSON.parse(localStorage.getItem('darkMode') ?? 'true'),
 })
 
 const mutations = {
@@ -174,6 +182,7 @@ const mutations = {
     },
     toggleTheme(state) {
         state.darkMode = !state.darkMode
+        localStorage.setItem('darkMode', JSON.stringify(state.darkMode))
     }
 }
 

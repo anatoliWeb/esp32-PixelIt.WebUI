@@ -1,10 +1,10 @@
-
+// src/plugins/vuetify.js
 // 0) сначала «привяжем» @mdi/js, чтобы iconset мог его найти:
 // import '@mdi/js'
 
 // import '@mdi/font/css/materialdesignicons.css'  // якщо потрібно
 import '/node_modules/@mdi/font/css/materialdesignicons.css'
-
+import { VSlider } from 'vuetify/components'
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
 
@@ -16,7 +16,7 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg'
 
 // 3) локаль (наприклад, українська)
-import { uk, en } from 'vuetify/locale'
+import { uk, en, de } from 'vuetify/locale'
 
 // 4) створюємо кастомні палітри для тем
 const lightTheme = {
@@ -45,11 +45,16 @@ const darkTheme = {
     },
 }
 
+// дефолтна мова з env або 'uk'
+const defaultLocale = import.meta.env.VITE_DEFAULT_LOCALE || 'uk'
+// спроба взяти з localStorage, інакше – дефолт
+const savedLocale = localStorage.getItem('locale') || defaultLocale
+
 export default createVuetify({
 
     components,
     directives,
-
+    VSlider,
     icons: {
         defaultSet: 'mdi',   // використовуємо набір mdi
         aliases,
@@ -57,9 +62,9 @@ export default createVuetify({
     },
 
     locale: {
-        locale: 'uk',        // українська за замовчуванням
-        fallback: 'en',
-        messages: { uk, en },
+        locale: savedLocale,        // поточна мова
+        fallback: 'en',             // якщо переклад відсутній
+        messages: { uk, en, de },
     },
 
     theme: {

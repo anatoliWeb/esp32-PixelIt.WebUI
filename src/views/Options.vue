@@ -5,7 +5,7 @@
                 <ButtonCondition
                         color="success"
                         :condition="isValid && sockedIsConnected"
-                        text="Save config"
+                        :text="$t('options.buttons.saveConfig')"
                         :onclick="save"
                         icon="mdi-content-save"
                 />
@@ -14,15 +14,15 @@
                 <ButtonConfirm
                         color="orange"
                         :condition="sockedIsConnected"
-                        text="Wifi Reset"
+                        :text="$t('options.buttons.wifiReset')"
                         :onclickAgree="wifiReset"
-                        disagreeText="Cancel"
-                        agreeText="Wifi Reset"
-                        title="Wifi Reset!"
+                        :disagreeText="$t('options.buttons.cancel')"
+                        :agreeText="$t('options.buttons.wifiReset')"
+                        :title="$t('options.buttons.wifiReset')"
                         :cardText="[
-            'You are about to delete your WIFI settings, the rest of your settings are not affected!',
-            'Are you sure you want to continue?'
-          ]"
+                            $t('options.dialogs.wifiResetLine1'),
+                            $t('options.dialogs.wifiResetLine2')
+                        ]"
                         icon="mdi-wifi-cancel"
                 />
             </v-col>
@@ -30,15 +30,15 @@
                 <ButtonConfirm
                         color="red"
                         :condition="sockedIsConnected"
-                        text="Factory Reset"
+                        :text="$t('options.buttons.factoryReset')"
                         :onclickAgree="factoryReset"
-                        disagreeText="Cancel"
-                        agreeText="Factory Reset"
-                        title="Factory Reset!"
+                        :disagreeText="$t('options.buttons.cancel')"
+                        :agreeText="$t('options.buttons.factoryReset')"
+                        :title="$t('options.buttons.factoryReset')"
                         :cardText="[
-            'You are about to delete all your settings, it will also affect the wifi setting!',
-            'Are you sure you want to continue?'
-          ]"
+                            $t('options.dialogs.factoryResetLine1'),
+                            $t('options.dialogs.factoryResetLine2')
+                        ]"
                         icon="mdi-harddisk-remove"
                 />
             </v-col>
@@ -49,66 +49,80 @@
                 <!-- Defaults Column -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-1" elevation="4">
-                        <v-card-title><h2>Defaults</h2></v-card-title>
+                        <v-card-title><h2>{{$t("options.defaults.title")}}</h2></v-card-title>
                         <v-divider />
-                        <v-text-field
-                                v-model="config.matrixBrightness"
-                                type="number"
-                                label="Matrix start brightness"
-                                hint="0 to 255"
-                                :rules="[rules.required, rules.min0, rules.max255]"
-                                dense
-                        />
+                        <div>
+                            <!-- Підпис над слайдером -->
+                            <div class="mb-1 subtitle-1">
+                                {{ $t('options.defaults.matrixBrightness') }}
+                            </div>
+                            <!-- Контейнер для слайдера + числа -->
+                            <div class="d-flex align-center">
+                                <v-slider
+                                        v-model="config.matrixBrightness"
+                                        :min="0"
+                                        :max="255"
+                                        :step="1"
+                                        thumb-label
+                                        hide-details
+                                        class="flex-grow-1"
+                                        dense
+                                />
+                                <!-- тут відображаємо число поруч -->
+                                <span class="mx-2 subtitle-1">{{ config.matrixBrightness }}</span>
+                            </div>
+                        </div>
                         <v-text-field
                                 v-model="config.scrollTextDefaultDelay"
                                 type="number"
-                                label="Scrolltext delay"
-                                hint="larger number is slower"
+                                :label="$t('options.defaults.scrollDelay')"
+                                :hint="$t('options.defaults.largerNumberIsSlower')"
                                 suffix="ms"
                                 :rules="[rules.required, rules.min0]"
                                 dense
                         />
                         <v-text-field
                                 v-model="config.hostname"
-                                label="Hostname"
+                                :label="$t('options.defaults.hostname')"
                                 dense
                         />
                         <v-text-field
                                 v-model="config.note"
-                                label="Note"
+                                :label="$t('options.defaults.note')"
                                 dense
                         />
                         <v-switch
                                 v-model="config.bootScreenAktiv"
-                                label="Bootscreen active"
+                                :label="$t('options.defaults.bootScreen')"
                                 dense
                         />
                         <v-switch
                                 v-if="showBatteryBtn"
                                 v-model="config.bootBatteryScreen"
-                                label="Show battery on boot"
+                                :label="$t('options.defaults.batteryOnBoot')"
                                 dense
                         />
                         <v-switch
                                 v-model="config.bootSound"
-                                label="Play sound on boot"
+                                :label="$t('options.defaults.bootSound')"
                                 dense
                         />
                         <v-switch
                                 v-model="config.checkUpdateScreen"
-                                label="Notify on firmware available"
+                                :label="$t('options.defaults.notifyFirmware')"
                                 dense
                         />
                     </v-card>
 
                     <!-- Matrix Card -->
                     <v-card class="pa-2 mt-4" elevation="4">
-                        <v-card-title><h2>Matrix</h2></v-card-title>
+                        <v-card-title><h2>{{$t("options.matrix.title")}}</h2></v-card-title>
                         <v-divider />
                         <v-select
                                 :items="matrixTypes"
                                 v-model="config.matrixType"
-                                label="Matrix type"
+                                :label="$t('options.matrix.type')"
+                                :item-title="item => $t(item.textKey)"
                                 item-title="text"
                                 item-value="value"
                                 dense
@@ -116,7 +130,8 @@
                         <v-select
                                 :items="matrixCorrection"
                                 v-model="config.matrixTempCorrection"
-                                label="Matrix correction"
+                                :label="$t('options.matrix.correction')"
+                                :item-title="item => $t(item.textKey)"
                                 item-title="text"
                                 item-value="value"
                                 dense
@@ -125,10 +140,10 @@
 
                     <!-- Auto Brightness -->
                     <v-card class="pa-2 mt-4" elevation="4">
-                        <v-card-title><h2>Auto brightness</h2></v-card-title>
+                        <v-card-title><h2>{{$t("options.autoBrightness.title")}}</h2></v-card-title>
                         <v-switch
                                 v-model="config.matrixBrightnessAutomatic"
-                                label="Auto brightness"
+                                :label="$t('options.autoBrightness.label')"
                                 dense
                         />
                         <v-row>
@@ -136,7 +151,7 @@
                                 <v-text-field
                                         v-model="config.mbaDimMin"
                                         type="number"
-                                        label="Min bright"
+                                        :label="$t('options.autoBrightness.minBright')"
                                         :disabled="!config.matrixBrightnessAutomatic"
                                         :rules="config.matrixBrightnessAutomatic ? [rules.required, rules.min0, rules.max255] : []"
                                         dense
@@ -146,7 +161,7 @@
                                 <v-text-field
                                         v-model="config.mbaDimMax"
                                         type="number"
-                                        label="Max bright"
+                                        :label="$t('options.autoBrightness.maxBright')"
                                         :disabled="!config.matrixBrightnessAutomatic"
                                         :rules="config.matrixBrightnessAutomatic ? [rules.required, rules.min0, rules.max255] : []"
                                         dense
@@ -158,7 +173,7 @@
                                 <v-text-field
                                         v-model="config.mbaLuxMin"
                                         type="number"
-                                        label="From lux"
+                                        :label="$t('options.autoBrightness.fromLux')"
                                         :disabled="!config.matrixBrightnessAutomatic"
                                         :rules="config.matrixBrightnessAutomatic ? [rules.required, rules.min0] : []"
                                         dense
@@ -168,7 +183,7 @@
                                 <v-text-field
                                         v-model="config.mbaLuxMax"
                                         type="number"
-                                        label="To lux"
+                                        :label="$t('options.autoBrightness.toLux')"
                                         :disabled="!config.matrixBrightnessAutomatic"
                                         :rules="config.matrixBrightnessAutomatic ? [rules.required, rules.min0] : []"
                                         dense
@@ -181,64 +196,64 @@
                 <!-- Clock Column -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Clock</h2></v-card-title>
+                        <v-card-title><h2>{{$t("options.clock.title")}}</h2></v-card-title>
                         <v-divider />
                         <v-text-field
                                 v-model="config.ntpServer"
-                                label="NTP Server"
+                                :label="$t('options.clock.ntpServer')"
                                 :rules="[rules.required]"
                                 dense
                         />
                         <v-text-field
                                 v-model="config.clockTimeZone"
                                 type="number"
-                                label="UTC offset"
+                                :label="$t('options.clock.utcOffset')"
                                 :rules="[rules.required, rules.minMinus12, rules.max14]"
                                 dense
                         />
                         <ColorPickerTextfield />
                         <v-switch
                                 v-model="config.clock24Hours"
-                                label="24h format"
+                                :label="$t('options.clock.format24')"
                                 dense
                         />
                         <v-switch
                                 v-model="config.clockWithSeconds"
-                                label="Show seconds"
+                                :label="$t('options.clock.showSeconds')"
                                 :disabled="!config.clock24Hours"
                                 dense
                         />
                         <v-switch
                                 v-model="config.clockDayLightSaving"
-                                label="DST active"
+                                :label="$t('options.clock.dst')"
                                 dense
                         />
                     </v-card>
 
                     <!-- MQTT -->
                     <v-card class="pa-2 mt-4" elevation="4">
-                        <v-card-title><h2>MQTT</h2></v-card-title>
+                        <v-card-title><h2>{{$t("options.mqtt.title")}}</h2></v-card-title>
                         <v-switch
                                 v-model="config.mqttAktiv"
-                                label="MQTT active"
+                                :label="$t('options.mqtt.active')"
                                 dense
                         />
                         <v-text-field
                                 v-model="config.mqttServer"
-                                label="Server"
+                                :label="$t('options.mqtt.server')"
                                 :rules="config.mqttAktiv ? [rules.required] : []"
                                 dense
                         />
                         <v-text-field
                                 v-model="config.mqttPort"
                                 type="number"
-                                label="Port"
+                                :label="$t('options.mqtt.port')"
                                 :rules="config.mqttAktiv ? [rules.required, rules.portRange] : []"
                                 dense
                         />
                         <v-text-field
                                 v-model="config.mqttMasterTopic"
-                                label="Master topic"
+                                :label="$t('options.mqtt.masterTopic')"
                                 :rules="config.mqttAktiv ? [rules.required] : []"
                                 dense
                         />
@@ -254,10 +269,10 @@
                 <!-- Telemetry Column -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Telemetry</h2></v-card-title>
+                        <v-card-title><h2>{{$t("options.telemetry.title")}}</h2></v-card-title>
                         <v-switch
                                 v-model="config.sendTelemetry"
-                                label="Send data"
+                                :label="$t('options.telemetry.sendData')"
                                 dense
                         />
                         <PrismEditor
@@ -270,7 +285,7 @@
                                 class="mt-2"
                                 color="primary"
                                 :condition="sockedIsConnected && sendTelemetryEnabled"
-                                text="Send now"
+                                :text="$t('options.telemetry.sendNow')"
                                 icon="mdi-cloud-upload"
                                 :onclick="sendTelemetry"
                         />

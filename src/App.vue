@@ -9,7 +9,7 @@
 
             <v-app-bar-nav-icon @click="toggleDrawer" />
 
-            <v-toolbar-title><b>PixelIt</b> - The Matrix Display</v-toolbar-title>
+            <v-toolbar-title><b>PixelIt</b> - {{ $t('app.title') }}</v-toolbar-title>
 
             <v-spacer />
 
@@ -17,22 +17,22 @@
                     v-if="!isConnected && !isDemoMode"
                     class="text-center message"
             >
-                Reconnecting...
+                {{ $t('status.reconnecting') }}
             </v-toolbar-title>
 
             <div
                     v-if="displayHostname"
                     class="hostname padded"
-                    :title="`Hostname: ${displayHostname}`"
+                    :title="$t('tooltip.hostname', { host: displayHostname })"
             >
                 {{ displayHostname }}
             </div>
 
             <v-icon
-                    v-if="isConnected"
+                    v-if="isConnected && !isDemoMode"
                     color="green"
                     class="mx-3 padded"
-                    :title="`Connected to ${socketUrl}`"
+                    :title="$t('tooltip.connected', { url: socketUrl })"
             >
                 mdi-lan-connect
             </v-icon>
@@ -41,7 +41,7 @@
                     v-if="isDemoMode"
                     color="green"
                     class="mx-3 padded"
-                    title="Connected to demo data source"
+                    title="$t('tooltip.connectedDemo')"
             >
                 mdi-lan-connect
             </v-icon>
@@ -50,14 +50,14 @@
                     v-if="!isConnected && !isDemoMode"
                     color="red"
                     class="mx-3 padded"
-                    :title="`Disconnected from ${socketUrl}`"
+                    :title="$t('tooltip.disconnected', { url: socketUrl })"
             >
                 mdi-lan-disconnect
             </v-icon>
 
             <LanguageSwitcher class="mx-3" />
 
-            <v-btn icon @click="changeTheme" title="Change theme" class="">
+            <v-btn icon @click="changeTheme" :title="$t('button.changeTheme')" class="mx-3">
                 <v-icon>{{ darkMode ? 'mdi-brightness-4' : 'mdi-brightness-4' }}</v-icon>
             </v-btn>
 

@@ -5,7 +5,7 @@
                 <ButtonCondition
                         color="success"
                         :condition="isValid && sockedIsConnected"
-                        text="Save config"
+                        :text="$t('sensorsbuttons.buttons.saveConfig')"
                         :onclick="save"
                         icon="mdi-content-save"
                 />
@@ -17,51 +17,52 @@
                 <!-- Sensor units and offsets -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Sensor units and offsets</h2></v-card-title>
+                        <v-card-title><h2>{{$t('sensorsbuttons.sensors.title')}}</h2></v-card-title>
                         <hr />
                         <br />
                         <v-select
                                 :items="temperatureUnits"
                                 v-model="config.temperatureUnit"
-                                label="Temperature unit"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.sensors.temperatureUnit')"
                                 item-title="text"
                                 item-value="value"
                         />
                         <v-text-field
                                 v-model="config.temperatureOffset"
                                 type="number"
-                                label="Temperature sensor offset"
+                                :label="$t('sensorsbuttons.sensors.temperatureOffset')"
                                 :rules="[rules.required]"
                         />
                         <v-text-field
                                 v-model="config.humidityOffset"
                                 type="number"
-                                label="Humidity sensor offset"
+                                :label="$t('sensorsbuttons.sensors.humidityOffset')"
                                 :rules="[rules.required]"
                         />
                         <v-text-field
                                 v-model="config.pressureOffset"
                                 type="number"
-                                label="Pressure sensor offset"
+                                :label="$t('sensorsbuttons.sensors.pressureOffset')"
                                 :rules="[rules.required]"
                         />
                         <v-text-field
                                 v-model="config.gasOffset"
                                 type="number"
-                                label="Gas sensor offset"
+                                :label="$t('sensorsbuttons.sensors.gasOffset')"
                                 :rules="[rules.required]"
                         />
                         <v-text-field
                                 v-model="config.luxOffset"
                                 type="number"
-                                label="Lux sensor offset"
+                                :label="$t('sensorsbuttons.sensors.luxOffset')"
                                 :rules="[rules.required]"
                         />
                         <v-text-field
                                 v-model="config.ldrSmoothing"
                                 type="number"
-                                label="Number of historic LDR readings"
-                                hint="Enter any value when using BH1750"
+                                :label="$t('sensorsbuttons.sensors.ldrHistory')"
+                                :hint="$t('sensorsbuttons.sensors.ldrHint')"
                                 :rules="[rules.required, rules.min0]"
                         />
                     </v-card>
@@ -70,60 +71,55 @@
                 <!-- Sensor hardware -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Sensor hardware</h2></v-card-title>
+                        <v-card-title><h2>{{$t('sensorsbuttons.hardware.title')}}</h2></v-card-title>
                         <hr />
                         <br />
-                        <h3>I²C sensors</h3>
-                        <v-card-text>
-                            If you use BH1750, BME280 or BME680 sensors, they need two pins to communicate.
-                        </v-card-text>
+                        <h3>{{$t('sensorsbuttons.hardware.i2c')}}</h3>
+                        <v-card-text>{{$t('sensorsbuttons.hardware.i2cDesc')}}</v-card-text>
                         <v-select
                                 :items="isESP8266 ? pinsESP8266 : pinsESP32"
                                 v-model="config.SCLPin"
-                                label="SCL pin"
-                                hint="Pick any value when using no I²C sensors"
+                                :label="$t('sensorsbuttons.hardware.scl')"
+                                :hint="$t('sensorsbuttons.hardware.i2cHint')"
                                 item-title="text"
                                 item-value="value"
                         />
                         <v-select
                                 :items="isESP8266 ? pinsESP8266 : pinsESP32"
                                 v-model="config.SDAPin"
-                                label="SDA pin"
-                                hint="Pick any value when using no I²C sensors"
+                                :label="$t('sensorsbuttons.hardware.sda')"
+                                :hint="$t('sensorsbuttons.hardware.i2cHint')"
                                 item-title="text"
                                 item-value="value"
                         />
                         <br />
-                        <h3>OneWire sensors</h3>
-                        <v-card-text>
-                            If you use OneWire sensors like DHT22, they need one pin to communicate.
-                        </v-card-text>
+                        <h3>{{$t('sensorsbuttons.hardware.onewire')}}</h3>
+                        <v-card-text>{{$t('sensorsbuttons.hardware.onewireDesc')}}</v-card-text>
                         <v-select
                                 :items="isESP8266 ? pinsESP8266 : pinsESP32"
                                 v-model="config.onewirePin"
-                                label="DHT sensor pin"
-                                hint="Pick any value when using no OneWire sensors"
+                                :label="$t('sensorsbuttons.hardware.onewirePin')"
+                                :hint="$t('sensorsbuttons.hardware.onewireHint')"
                                 item-title="text"
                                 item-value="value"
                         />
-                        <h3>LDR</h3>
-                        <v-card-text>
-                            If you use no BH1750 but an LDR, select its type and pulldown resistor.
+                        <h3>{{$t('sensorsbuttons.hardware.ldr')}}</h3>
+                        <v-card-text>{{$t('sensorsbuttons.hardware.ldrDesc')}}
                         </v-card-text>
                         <v-select
                                 :items="ldrDevices"
                                 v-model="config.ldrDevice"
-                                label="Lux sensor type"
-                                hint="Pick any value when using BH1750 or no lux sensor"
+                                :label="$t('sensorsbuttons.hardware.ldrType')"
+                                :hint="$t('sensorsbuttons.hardware.ldrHint')"
                                 item-title="text"
                                 item-value="value"
                         />
                         <v-text-field
                                 v-model="config.ldrPulldown"
                                 type="number"
-                                label="Value of pulldown resistor"
+                                :label="$t('sensorsbuttons.hardware.ldrResistor')"
                                 suffix="Ohm"
-                                hint="Enter any value when using BH1750 or no lux sensor"
+                                :hint="$t('sensorsbuttons.hardware.ldrHint')"
                                 :rules="[rules.required]"
                         />
                     </v-card>
@@ -132,18 +128,18 @@
                 <!-- Button hardware and actions -->
                 <v-col cols="12" lg="4">
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Button hardware</h2></v-card-title>
+                        <v-card-title><h2>{{$t('sensorsbuttons.buttons.title')}}</h2></v-card-title>
                         <hr />
                         <br />
                         <v-switch
                                 v-model="config.btn0Enabled"
-                                label="Left button enabled"
+                                :label="$t('sensorsbuttons.buttons.left.enabled')"
                                 dense hide-details
                         />
                         <v-select
                                 :items="isESP8266 ? pinsESP8266 : pinsESP32"
                                 v-model="config.btn0Pin"
-                                label="Pin for left button"
+                                :label="$t('sensorsbuttons.buttons.left.pin')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn0Enabled"
@@ -151,7 +147,8 @@
                         <v-select
                                 :items="btnLowHigh"
                                 v-model="config.btn0PressedLevel"
-                                label="Left button signal type"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.buttons.left.signal')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn0Enabled"
@@ -159,13 +156,13 @@
                         <br />
                         <v-switch
                                 v-model="config.btn1Enabled"
-                                label="Middle button enabled"
+                                :label="$t('sensorsbuttons.buttons.middle.enabled')"
                                 dense hide-details
                         />
                         <v-select
                                 :items="isESP8266 ? pinsESP8266 : pinsESP32"
                                 v-model="config.btn1Pin"
-                                label="Pin for middle button"
+                                :label="$t('sensorsbuttons.buttons.middle.pin')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn1Enabled"
@@ -173,7 +170,8 @@
                         <v-select
                                 :items="btnLowHigh"
                                 v-model="config.btn1PressedLevel"
-                                label="Middle button signal type"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.buttons.middle.signal')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn1Enabled"
@@ -181,13 +179,13 @@
                         <br />
                         <v-switch
                                 v-model="config.btn2Enabled"
-                                label="Right button enabled"
+                                :label="$t('sensorsbuttons.buttons.right.enabled')"
                                 dense hide-details
                         />
                         <v-select
                                 :items="isESP8266 ? pinsESP8266 : pinsESP32"
                                 v-model="config.btn2Pin"
-                                label="Pin for right button"
+                                :label="$t('sensorsbuttons.buttons.right.pin')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn2Enabled"
@@ -195,7 +193,8 @@
                         <v-select
                                 :items="btnLowHigh"
                                 v-model="config.btn2PressedLevel"
-                                label="Right button signal type"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.buttons.right.signal')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn2Enabled"
@@ -204,13 +203,14 @@
 
                     <br />
                     <v-card class="pa-2" elevation="4">
-                        <v-card-title><h2>Button actions</h2></v-card-title>
+                        <v-card-title><h2>{{$t('sensorsbuttons.buttons.actionsTitle')}}</h2></v-card-title>
                         <hr />
                         <br />
                         <v-select
                                 :items="btnActions"
                                 v-model="config.btn0Action"
-                                label="Left button action"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.buttons.left.action')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn0Enabled"
@@ -218,7 +218,8 @@
                         <v-select
                                 :items="btnActions"
                                 v-model="config.btn1Action"
-                                label="Middle button action"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.buttons.middle.action')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn1Enabled"
@@ -226,7 +227,8 @@
                         <v-select
                                 :items="btnActions"
                                 v-model="config.btn2Action"
-                                label="Right button action"
+                                :item-title="item => $t(item.textKey)"
+                                :label="$t('sensorsbuttons.buttons.right.action')"
                                 item-title="text"
                                 item-value="value"
                                 :disabled="!config.btn2Enabled"

@@ -5,7 +5,7 @@
             <v-col cols="12" lg="3">
                 <v-card class="pa-2" elevation="4">
                     <v-card-title>
-                        <h2>System</h2>
+                        <h2>{{ $t('home.system') }}</h2>
                     </v-card-title>
                     <hr />
                     <br />
@@ -18,7 +18,7 @@
                                 :href="gitUpdateURL"
                                 target="_blank"
                         >
-                            Update to version {{ gitVersion }} available!
+                            {{ $t('home.updateAvailable', { version: gitVersion }) }}
                         </a>
                         <v-icon size="16px" class="updateMessage">
                             mdi-open-in-new
@@ -31,7 +31,7 @@
             <v-col cols="12" lg="3">
                 <v-card class="pa-2" elevation="4">
                     <v-card-title>
-                        <h2>Liveview</h2>
+                        <h2>{{ $t('home.liveview') }}</h2>
                     </v-card-title>
                     <hr />
                     <br />
@@ -44,7 +44,7 @@
                 <br />
                 <v-card class="pa-2" elevation="4">
                     <v-card-title>
-                        <h2>Sensors</h2>
+                        <h2>{{ $t('home.sensors') }}</h2>
                     </v-card-title>
                     <hr />
                     <br />
@@ -53,7 +53,7 @@
                 <br />
                 <v-card class="pa-2" elevation="4">
                     <v-card-title>
-                        <h2>Buttons</h2>
+                        <h2>{{ $t('home.buttons') }}</h2>
                     </v-card-title>
                     <hr />
                     <br />
@@ -64,7 +64,7 @@
             <v-col cols="12" lg="6">
                 <v-card class="pa-2" elevation="4">
                     <v-card-title>
-                        <h2>Logs</h2>
+                        <h2>{{ $t('home.logs') }}</h2>
                     </v-card-title>
                     <hr />
                     <br />
@@ -73,24 +73,19 @@
                 <br />
                 <v-card class="pa-2" elevation="4">
                     <v-card-title>
-                        <h2>Usermap</h2>
+                        <h2>{{ $t('home.usermap') }}</h2>
                     </v-card-title>
                     <hr />
                     <v-card-text class="text-md-center" v-if="!sendStatistics">
-                        <h2>
-                            Activate the telemetry data to see the usermap.
-                        </h2>
+                        <h2>{{ $t('home.activateTelemetry') }}</h2>
                         <br />
                         <h4>
-                            To activate the telemetry data, go to
+                            {{ $t('home.goToOptions') }}
                             <a href="/#/options"
-                            ><b>Options</b> and activate <b>"Send Telemetry data"</b></a
+                            ><b>{{ $t('home.options') }}</b> {{ $t('home.andActivate') }} <b>"{{ $t('home.sendTelemetry') }}"</b></a
                             >
                         </h4>
-                        <small>
-                            After activation, it can take up to one minute for the data to
-                            become visible.
-                        </small>
+                        <small>{{ $t('home.afterActivation') }}</small>
                     </v-card-text>
                     <div v-else>
                         <UserMap :coords="userMapData" height="500px" />

@@ -1,6 +1,206 @@
 {
-  "hello": "Hello",
-  "save": "Save",
-  "options": "Options",
-  "gallery": "Gallery"
+  "app": {
+    "title":          "The Matrix Display"
+  },
+  "status": {
+    "reconnecting":   "Reconnecting..."
+  },
+  "tooltip": {
+    "hostname":       "Hostname: {host}",
+    "connected":      "Connected to {url}",
+    "connectedDemo":  "Connected to demo data source",
+    "disconnected":   "Disconnected from {url}"
+  },
+  "button": {
+    "changeTheme":    "Change theme"
+  },
+  "nav": {
+    "dashboard":       "Dashboard",
+    "options":         "Options",
+    "sensorsButtons":  "Sensors & Buttons",
+    "testArea":        "Test Area",
+    "statistics":      "Statistics",
+    "updateBackup":    "Update & Backup",
+    "pixelGallery":    "Pixel Gallery",
+    "pixelCreator":    "Pixel Creator",
+    "forum":           "Forum",
+    "blog":            "Blog",
+    "documentation":   "Documentation",
+    "github":          "GitHub"
+  },
+  "home": {
+    "system":                "System",
+    "liveview":              "Liveview",
+    "sensors":               "Sensors",
+    "buttons":               "Buttons",
+    "logs":                  "Logs",
+    "usermap":               "Usermap",
+    "updateAvailable":       "Update to version {version} available!",
+    "activateTelemetry":     "Activate the telemetry data to see the usermap.",
+    "goToOptions":           "To activate the telemetry data, go to",
+    "options":               "Options",
+    "andActivate":           "and activate",
+    "sendTelemetry":         "Send Telemetry data",
+    "afterActivation":       "After activation, it can take up to one minute for the data to become visible."
+  },
+  "options": {
+    "buttons": {
+      "saveConfig":    "Save config",
+      "wifiReset":     "Wifi Reset",
+      "cancel":        "Cancel",
+      "factoryReset":  "Factory Reset"
+    },
+    "defaults": {
+      "title":               "Defaults",
+      "matrixBrightness":    "Matrix start brightness",
+      "scrollDelay":         "Scrolltext delay",
+      "largerNumberIsSlower":         "Larger number is slower",
+      "hostname":            "Hostname",
+      "note":                "Note",
+      "bootScreen":          "Bootscreen active",
+      "batteryOnBoot":       "Show battery on boot",
+      "bootSound":           "Play sound on boot",
+      "notifyFirmware":      "Notify on firmware available"
+    },
+    "matrix": {
+      "title":               "Matrix",
+      "type":                "Matrix type",
+      "correction":          "Matrix correction"
+    },
+    "autoBrightness": {
+      "title":               "Auto brightness",
+      "label":               "Auto brightness",
+      "minBright":           "Min bright",
+      "maxBright":           "Max bright",
+      "fromLux":             "From lux",
+      "toLux":               "To lux"
+    },
+    "clock": {
+      "title":               "Clock",
+      "ntpServer":           "NTP Server",
+      "utcOffset":           "UTC offset",
+      "format24":            "24h format",
+      "showSeconds":         "Show seconds",
+      "dst":                 "DST active"
+    },
+    "mqtt": {
+      "title":               "MQTT",
+      "active":              "MQTT active",
+      "server":              "Server",
+      "port":                "Port",
+      "masterTopic":         "Master topic",
+      "deviceTopic":         "Use device topic"
+    },
+    "telemetry": {
+      "title":               "Telemetry",
+      "sendData":            "Send data",
+      "sendNow":             "Send now"
+    }
+  },
+  "matrixTypes": {
+    "1": "Type 1 – Column major",
+    "2": "Type 2 – Row major",
+    "3": "Type 3 – Tiled 4×8 CJMCU (Column major)",
+    "4": "Type 4 – MicroMatrix ᵇʸ ᶠᵒᵒʳˢᶜʰᵗᵇᴀʀ",
+    "5": "Type 5 – Tiled 4×8 CJMCU (Row major)"
+  },
+  "matrixCorrection": {
+    "default": "Default",
+    "typicalsmd5050": "Typical SMD 5050",
+    "typical8mmpixel": "Typical 8 mm Pixel",
+    "tungsten40w": "Tungsten 40W",
+    "tungsten100w": "Tungsten 100W",
+    "halogen": "Halogen",
+    "carbonarc": "Carbon Arc",
+    "highnoonsun": "High Noon Sun",
+    "directsunlight": "Direct Sunlight",
+    "overcastsky": "Overcast Sky",
+    "clearbluesky": "Clear Blue Sky",
+    "warmfluorescent": "Warm Fluorescent",
+    "standardfluorescent": "Standard Fluorescent",
+    "coolwhitefluorescent": "Cool White Fluorescent",
+    "fullspectrumfluorescent": "Full Spectrum Fluorescent",
+    "growlightfluorescent": "Grow Light Fluorescent",
+    "blacklightfluorescent": "Black Light Fluorescent",
+    "mercuryvapor": "Mercury Vapor",
+    "sodiumvapor": "Sodium Vapor",
+    "metalhalide": "Metal Halide",
+    "highpressuresodium": "High Pressure Sodium"
+  },
+  "autoFallbackAnimation": {
+    "0": "None",
+    "1": "Fade",
+    "2": "Colored Bar Wipe",
+    "3": "ZigZag Wipe",
+    "4": "Random Wipe"
+  },
+  "temperatureUnits": {
+    "0": "Celsius °C",
+    "1": "Fahrenheit °F"
+  },
+  "btnLowHigh": {
+    "0": "Active low",
+    "1": "Active high"
+  },
+  "btnActions": {
+    "0": "None (only send to MQTT and API)",
+    "1": "Go to Clock",
+    "2": "Toggle Sleep Mode",
+    "3": "MP3: Toggle Play/Pause",
+    "4": "MP3: Previous track",
+    "5": "MP3: Next track"
+  },
+  "sensorsbuttons": {
+    "sensors": {
+      "title": "Sensor units and offsets",
+      "temperatureUnit": "Temperature unit",
+      "temperatureOffset": "Temperature sensor offset",
+      "humidityOffset": "Humidity sensor offset",
+      "pressureOffset": "Pressure sensor offset",
+      "gasOffset": "Gas sensor offset",
+      "luxOffset": "Lux sensor offset",
+      "ldrHistory": "Number of historic LDR readings",
+      "ldrHint": "Enter any value when using BH1750"
+    },
+    "hardware": {
+      "title": "Sensor hardware",
+      "i2c": "I²C sensors",
+      "i2cDesc": "If you use BH1750, BME280 or BME680 sensors, they need two pins to communicate.",
+      "scl": "SCL pin",
+      "sda": "SDA pin",
+      "i2cHint": "Pick any value when using no I²C sensors",
+      "onewire": "OneWire sensors",
+      "onewireDesc": "If you use OneWire sensors like DHT22, they need one pin to communicate.",
+      "onewirePin": "DHT sensor pin",
+      "onewireHint": "Pick any value when using no OneWire sensors",
+      "ldr": "LDR",
+      "ldrDesc": "If you use no BH1750 but an LDR, select its type and pulldown resistor.",
+      "ldrType": "Lux sensor type",
+      "ldrHint": "Pick any value when using BH1750 or no lux sensor",
+      "ldrResistor": "Value of pulldown resistor"
+    },
+    "buttons": {
+      "title": "Button hardware",
+      "saveConfig":    "Save config",
+      "left": {
+        "enabled": "Left button enabled",
+        "pin": "Pin for left button",
+        "signal": "Left button signal type",
+        "action": "Left button action"
+      },
+      "middle": {
+        "enabled": "Middle button enabled",
+        "pin": "Pin for middle button",
+        "signal": "Middle button signal type",
+        "action": "Middle button action"
+      },
+      "right": {
+        "enabled": "Right button enabled",
+        "pin": "Pin for right button",
+        "signal": "Right button signal type",
+        "action": "Right button action"
+      },
+      "actionsTitle": "Button actions"
+    }
+  }
 }

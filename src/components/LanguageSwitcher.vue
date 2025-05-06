@@ -61,9 +61,13 @@
 <script setup>
     import { ref, computed, onMounted } from 'vue'
     import { useI18n } from 'vue-i18n'
+    import { useLocale as useVuetifyLocale } from 'vuetify'
 
     // стан меню
     const menu = ref(false)
+
+    // Vuetify локаль
+    const vuetifyLocale = useVuetifyLocale()
 
     // i18n
     const { locale, availableLocales } = useI18n()
@@ -130,6 +134,8 @@
     // зміна мови з меню
     function select(val) {
         locale.value = val
+        // синхронізуємо зміни з i18n → Vuetify
+        vuetifyLocale.current.value = val
         menu.value   = false
     }
 
