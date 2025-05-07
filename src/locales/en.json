@@ -54,7 +54,7 @@
       "title":               "Defaults",
       "matrixBrightness":    "Matrix start brightness",
       "scrollDelay":         "Scrolltext delay",
-      "largerNumberIsSlower":         "Larger number is slower",
+      "largerNumberIsSlower":"Larger number is slower",
       "hostname":            "Hostname",
       "note":                "Note",
       "bootScreen":          "Bootscreen active",
@@ -95,6 +95,12 @@
       "title":               "Telemetry",
       "sendData":            "Send data",
       "sendNow":             "Send now"
+    },
+    "dialogs": {
+      "wifiResetLine1": "You are about to delete your WIFI settings, the rest of your settings are not affected!",
+      "wifiResetLine2": "Are you sure you want to continue?",
+      "factoryResetLine1": "You are about to delete all your settings, it will also affect the wifi setting!",
+      "factoryResetLine2": "Are you sure you want to continue?"
     }
   },
   "matrixTypes": {
@@ -270,5 +276,16 @@
   "downloadStats": {
     "title": "Downloads",
     "notes": "Release notes"
+  },
+  "testArea": {
+    "liveview": "Liveview",
+    "jsonString": "JSON String",
+    "sendJson": "Send JSON",
+    "textBrightness": "Text / Brightness",
+    "brightness": "Brightness",
+    "textToSend": "Text to send",
+    "sendText": "Send Text",
+    "bitmapArray": "Bitmap Array",
+    "sendBitmap": "Send Bitmap"
   }
 }

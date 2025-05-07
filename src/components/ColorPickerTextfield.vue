@@ -1,7 +1,7 @@
 <template>
     <v-text-field
             v-model="color"
-            $label="$t('colorPickerTextField.label')"
+            :label="$t('colorPickerTextField.label')"
             readonly
             :hint="$t('colorPickerTextField.hint')"
             class="align-center"

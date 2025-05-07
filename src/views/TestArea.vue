@@ -4,7 +4,7 @@
             <!-- Liveview -->
             <v-col cols="12" lg="4">
                 <v-card class="pa-2" elevation="4">
-                    <v-card-title><h2>Liveview</h2></v-card-title>
+                    <v-card-title><h2>{{$t("testArea.liveview")}}</h2></v-card-title>
                     <hr />
                     <br />
                     <Liveview
@@ -17,7 +17,7 @@
 
                 <!-- JSON String -->
                 <v-card class="pa-2" elevation="4">
-                    <v-card-title><h2>JSON String</h2></v-card-title>
+                    <v-card-title><h2>{{$t("testArea.jsonString")}}</h2></v-card-title>
                     <hr />
                     <br />
                     <PrismEditor
@@ -31,7 +31,7 @@
                         <ButtonCondition
                                 color="info"
                                 :condition="sockedIsConnected"
-                                text="Send JSON"
+                                :text="$t('testArea.sendJson')"
                                 icon="mdi-cloud-upload"
                                 :onclick="sendJson"
                         />
@@ -42,11 +42,11 @@
             <!-- Text / Brightness -->
             <v-col cols="12" lg="4">
                 <v-card class="pa-2" elevation="4">
-                    <v-card-title><h2>Text / Brightness</h2></v-card-title>
+                    <v-card-title><h2>{{$t("testArea.textBrightness")}}</h2></v-card-title>
                     <hr />
                     <br />
                     <span class="text-h2 font-weight-light">{{ brightness }}</span>
-                    <span class="subheading font-weight-light mr-1">Brightness</span>
+                    <span class="subheading font-weight-light mr-1">{{$t("testArea.brightness")}}</span>
                     <v-slider
                             v-model="brightness"
                             max="255"
@@ -54,14 +54,14 @@
                             @end="sendBrightness"
                     />
                     <v-text-field
-                            label="Text to send"
+                            :label="$t('testArea.textToSend')"
                             v-model="text"
                     />
                     <div class="text-center">
                         <ButtonCondition
                                 color="info"
                                 :condition="sockedIsConnected"
-                                text="Send Text"
+                                :text="$t('testArea.sendText')"
                                 icon="mdi-cloud-upload"
                                 :onclick="sendText"
                         />
@@ -72,7 +72,7 @@
             <!-- Bitmap Array -->
             <v-col cols="12" lg="4">
                 <v-card class="pa-2" elevation="4">
-                    <v-card-title><h2>Bitmap Array</h2></v-card-title>
+                    <v-card-title><h2>{{$t("testArea.bitmapArray")}}</h2></v-card-title>
                     <hr />
                     <br />
                     <PrismEditor
@@ -85,7 +85,7 @@
                         <ButtonCondition
                                 color="info"
                                 :condition="sockedIsConnected"
-                                text="Send Bitmap"
+                                :text="$t('testArea.sendBitmap')"
                                 icon="mdi-cloud-upload"
                                 :onclick="sendBitmap"
                         />
@@ -114,19 +114,19 @@
 
     // Двосторонній binding до Vuex-модуля testarea
     const json = computed({
-        get:  () => store.state.testarea.json,
+        get:  () => String(store.state.testarea.json || ''),
         set: v  => store.commit('testarea/SET_JSON', v)
     })
     const text = computed({
-        get:  () => store.state.testarea.text,
+        get:  () => store.state.testarea.text || '',
         set: v  => store.commit('testarea/SET_TEXT', v)
     })
     const image = computed({
-        get:  () => store.state.testarea.image,
+        get:  () => String(store.state.testarea.image || ''),
         set: v  => store.commit('testarea/SET_IMAGE', v)
     })
     const brightness = computed({
-        get:  () => store.state.testarea.brightness,
+        get:  () => store.state.testarea.brightness || '',
         set: v  => store.commit('testarea/SET_BRIGHTNESS', v)
     })
 
