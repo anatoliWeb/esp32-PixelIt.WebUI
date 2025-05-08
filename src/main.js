@@ -15,6 +15,8 @@ import { setupI18n } from '@/plugins/i18n'
 // Створення додатку
 const app = createApp(App)
 
+import { loadDemoData } from '@/utils/loadDemoData'
+
 // Глобальні змінні
 const pixelitHost = import.meta.env.VUE_APP_PIXELIT_HOST || location.host
 const pixelitSocketHost = import.meta.env.VUE_APP_PIXELIT_SOCKET_HOST || location.host
@@ -38,9 +40,7 @@ setupI18n(app)
 
 // Підключення WebSocket або DEMO режим
 if (location.host.includes('.github.io') || import.meta.env.VUE_APP_DEMO_MODE === 'true') {
-    const demoJSON = await import('../public/demoData/demo.json')
-    // store.commit('SOCKET_ONMESSAGE', demoJSON.default)
-    store.commit('socket/SOCKET_ONMESSAGE', demoJSON.default)
+    loadDemoData()
     // Демо-режим:
     app.config.globalProperties.$demoMode = true
 } else {
