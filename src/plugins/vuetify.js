@@ -103,5 +103,11 @@ export default createVuetify({
         VCard: {
             elevation: 4,
         },
+        VSwitch: {
+            color: 'primary'
+        },
+        VCheckbox: {
+            color: 'primary'
+        }
     },
 })

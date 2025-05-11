@@ -11,7 +11,13 @@ const mutations = {
     SET_USER_MAP_DATA(state, data) {
         state.userMapData = data
     },
+    SET_USERMAP_DATA(state, data) {
+        state.userMapData = data
+    },
     SET_STATISTICS(state, data) {
+        state.statistics = data
+    },
+    SET_STATS(state, data) {
         state.statistics = data
     }
 }

@@ -139,6 +139,13 @@
 </style>
 
 <style scoped>
+    html, body {
+        overflow: hidden;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
     .container {
         max-width: 100vw;
         padding: 10px;
@@ -155,15 +162,19 @@
         padding-right: 15px;
     }
 
+    .v-main {
+        overflow-y: auto;
+        height: 100vh;
+    }
+
+    .v-container {
+        max-width: 100% !important;
+        width: 100%;
+    }
+
     @media screen and (max-width: 600px) {
         .hostname {
             display: none;
-        }
-    }
-
-    @media (min-width: 1920px) {
-        .v-container {
-            max-width: 100%;
         }
     }
 

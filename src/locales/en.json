@@ -81,7 +81,18 @@
       "utcOffset":           "UTC offset",
       "format24":            "24h format",
       "showSeconds":         "Show seconds",
-      "dst":                 "DST active"
+      "dst":                 "DST active",
+      "largeFont": "Large clock font",
+      "fatFont": "Bold clock font",
+      "weekdays": "Clock with Weekdays",
+      "switchActive": "Switch clock/date active",
+      "blinkSeparator": "Flashing time separator",
+      "startMonday": "Monday as start of the week",
+      "dateFormat": "Date format DD.MM.",
+      "switchTime": "Switch clock/date time",
+      "autoFallback": "Clock auto fallback",
+      "fallbackAnimation": "Fallback Animation",
+      "fallbackTime": "Fallback time"
     },
     "mqtt": {
       "title":               "MQTT",
@@ -89,18 +100,42 @@
       "server":              "Server",
       "port":                "Port",
       "masterTopic":         "Master topic",
-      "deviceTopic":         "Use device topic"
+      "deviceTopic":         "Use device topic",
+      "discoverable": "Making the device discoverable by HomeAssistant",
+      "user": "User",
+      "password": "Password",
+      "userHint": "optional",
+      "passwordHint": "optional"
     },
     "telemetry": {
       "title":               "Telemetry",
       "sendData":            "Send data",
-      "sendNow":             "Send now"
+      "sendNow":             "Send now",
+      "preview": "Data preview",
+      "whyTitle": "Why?",
+      "whyDesc1": "The telemetry data helps us to understand which hardware is used for the PixelIt and which software versions are on the road.",
+      "whyDesc2": "It motivates us developers to see the spread and keep having fun developing :)",
+      "thatWasIt": "That was it :)",
+      "data": {
+        "uuid": "UUID is a generated hash from the ESP hardware",
+        "version": "Version from the PixelIt",
+        "build": "Build section name",
+        "matrix": "Matrix type and size",
+        "sensors": "Sensors used (types)",
+        "country": "Country (via GeoIP service, but NO IP address)"
+      }
     },
     "dialogs": {
       "wifiResetLine1": "You are about to delete your WIFI settings, the rest of your settings are not affected!",
       "wifiResetLine2": "Are you sure you want to continue?",
       "factoryResetLine1": "You are about to delete all your settings, it will also affect the wifi setting!",
       "factoryResetLine2": "Are you sure you want to continue?"
+    },
+    "sound": {
+      "title": "Sound",
+      "initialVolume": "Start volume",
+      "rxPin": "DFPlayer RX pin",
+      "txPin": "DFPlayer TX pin"
     }
   },
   "matrixTypes": {

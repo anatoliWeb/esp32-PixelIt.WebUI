@@ -24,7 +24,7 @@
                             mdi-open-in-new
                         </v-icon>
                     </div>
-                    <ListInfo :items="systemItems" />
+                    <ListInfo :items="convertToList(systemItems)" />
                 </v-card>
             </v-col>
             <!-- Liveview & Sensors & Buttons -->
@@ -48,7 +48,7 @@
                     </v-card-title>
                     <hr />
                     <br />
-                    <ListInfo :items="sensorItems" />
+                    <ListInfo :items="convertToList(sensorItems)" />
                 </v-card>
                 <br />
                 <v-card class="pa-2" elevation="4">
@@ -57,7 +57,7 @@
                     </v-card-title>
                     <hr />
                     <br />
-                    <ListInfo :items="buttonItems" />
+                    <ListInfo :items="convertToList(buttonItems)" />
                 </v-card>
             </v-col>
             <!-- Logs and Usermap -->
@@ -110,11 +110,25 @@
     const systemItems = computed(() => store.state.matrix.sysInfoData)
     const sensorItems = computed(() => store.state.matrix.sensorData)
     const buttonItems = computed(() => store.state.matrix.buttonData)
-    const logText = computed(() => store.state.matrix.logData.join('\n'))
+    const logText = computed(() => {
+        const logs = store.state.matrix.logData
+        console.log("logs", logs)
+        return Array.isArray(logs)
+            ? logs.map(entry =>
+                `[${entry.timeStamp}] ${entry.function}: ${entry.message}`
+            ).join('\n')
+            : logs
+    })
+
+    // console.log("systemItems", systemItems)
+    // console.log("sensorItems", sensorItems)
+    // console.log("buttonItems", buttonItems)
+    console.log("logText", logText)
 
     const newVersionAvailable = computed(
         () => store.state.config.newVersionAvailable
     )
+
     const gitVersion = computed(() => store.state.config.gitVersion)
     const gitUpdateURL = computed(
         () => store.state.config.gitDownloadUrl
@@ -133,6 +147,23 @@
     const liveviewCanvasSettings = computed(
         () => store.state.matrix.matrixSize
     )
+
+    function convertToList(obj) {
+        return Object.entries(obj).map(([key, value]) => ({
+            name: key.replace(/([a-z])([A-Z])/g, '$1 $2'), // Пробіли між camelCase
+            value: value
+        }))
+    }
+
+    console.log("newVersionAvailable", newVersionAvailable)
+    console.log("gitVersion", gitVersion)
+    console.log("gitUpdateURL", gitUpdateURL)
+    console.log("isDemoMode", isDemoMode)
+    console.log("sendStatistics", sendStatistics)
+    console.log("userMapData", userMapData)
+    console.log("liveview", liveview)
+    console.log("liveviewCanvasSettings", liveviewCanvasSettings)
+
 </script>
 
 <style scoped>

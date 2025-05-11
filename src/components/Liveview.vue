@@ -4,6 +4,7 @@
                 ref="canvas"
                 :width="canvasSize.width"
                 :height="canvasSize.height"
+                class="liveview-canvas"
         />
     </div>
 </template>
@@ -31,6 +32,8 @@
         ...defaultOptions,
         ...props.options
     }))
+
+    // console.log("mergedOptions", mergedOptions.value);
 
     // Compute canvas dimensions
     const canvasSize = computed(() => ({
@@ -90,6 +93,12 @@
         border: 2px solid gray;
         padding: 1px;
         border-radius: 5px;
+        max-width: 100%;
+    }
+
+    .liveview-canvas {
+        width: 100%;
+        height: auto;
         max-width: 100%;
     }
 </style>

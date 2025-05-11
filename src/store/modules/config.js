@@ -180,6 +180,9 @@ const mutations = {
     SET_DISPLAY_HOSTNAME(state, hostname) {
         state.displayHostname = hostname
     },
+    SET_IS_DEMO_MODE(state, status) {
+        state.isDemoMode = status
+    },
     toggleTheme(state) {
         state.darkMode = !state.darkMode
         localStorage.setItem('darkMode', JSON.stringify(state.darkMode))

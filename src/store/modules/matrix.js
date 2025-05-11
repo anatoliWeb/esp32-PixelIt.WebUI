@@ -30,6 +30,24 @@ const mutations = {
     },
     ADD_SYSINFO_DATA(state, info) {
         state.sysInfoData.push(info)
+    },
+    SET_SYSINFO_DATA(state, data) {
+        state.sysInfoData = data
+    },
+    SET_SENSOR_DATA(state, data) {
+        state.sensorData = data
+    },
+    SET_BUTTON_DATA(state, data) {
+        state.buttonData = data
+    },
+    SET_LOG_DATA(state, data) {
+        state.logData = data
+    },
+    SET_LIVEVIEW_DATA(state, data) {
+        state.liveviewData = data
+    },
+    SET_MATRIX_SIZE(state, data) {
+        state.matrixSize = data
     }
 }
 
