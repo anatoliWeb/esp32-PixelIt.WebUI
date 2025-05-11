@@ -21,10 +21,11 @@
                     <hr />
                     <br />
                     <PrismEditor
-                            class="editor"
+                            class="editor mt-2 rounded"
                             v-model="json"
                             :highlight="highlighter"
                             line-numbers
+                            :tabSize="2"
                     />
                     <br />
                     <div class="text-center">
@@ -51,7 +52,8 @@
                             v-model="brightness"
                             max="255"
                             min="0"
-                            @end="sendBrightness"
+                            step="1"
+                            @change="sendBrightness"
                     />
                     <v-text-field
                             :label="$t('testArea.textToSend')"
@@ -79,6 +81,7 @@
                             class="editor"
                             v-model="image"
                             :highlight="highlighter"
+                            :tabSize="2"
                     />
                     <br />
                     <div class="text-center">
@@ -126,7 +129,7 @@
         set: v  => store.commit('testarea/SET_IMAGE', v)
     })
     const brightness = computed({
-        get:  () => store.state.testarea.brightness || '',
+        get:  () => store.state.testarea.brightness || 1,
         set: v  => store.commit('testarea/SET_BRIGHTNESS', v)
     })
 
@@ -180,15 +183,63 @@
     }
 </script>
 
-<style scoped>
+<style>
     .editor {
-        background: #2d2d2d;
+        position: relative;
+        background: #1e1e1e;
         color: #ccc;
         font-family: 'Fira Code', monospace;
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.4rem;
         padding: 5px;
         min-height: 200px;
         border-radius: 5px;
+    }
+
+    .prism-editor__line-numbers {
+        position: absolute;
+        top: 15px;
+        left: 0;
+        width: 2rem;
+        padding-right: 0.4rem;
+        text-align: right;
+        color: #888;
+        user-select: none;
+        line-height: 1.4rem !important;
+    }
+    .prism-editor__editor{
+        word-break: break-word;
+        white-space: pre-wrap;
+    }
+
+    .prism-editor__container {
+        margin-left: 1.0rem;
+        padding: 0.6rem 0.8rem;
+        line-height: 1.4rem !important;
+        white-space: pre-wrap !important;
+        word-break: break-word;
+    }
+
+    .prism-editor__container textarea.prism-editor__textarea {
+        color: transparent !important; /* приховує текст, якщо не хочеш редагування */
+        caret-color: white;
+        top: 14px;
+        left: 34px;
+        height: -webkit-fill-available;
+        width: -webkit-fill-available;
+        background: transparent;
+        z-index: 2;
+        position: absolute;
+        font-size: 14px;
+        font-family: inherit;
+        margin: 0;
+        line-height: 1.4rem !important;
+        padding: 0px 22px 0px 0px;
+    }
+
+    .prism-editor__container textarea.prism-editor__textarea:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 </style>

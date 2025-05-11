@@ -565,7 +565,7 @@
 <style>
     ul { margin-top: 10px; }
     li { margin-left: 20px; }
-    .prism-editor__container textarea.prism-editor__textarea {
-        display: none !important;
-    }
+    /*.prism-editor__container textarea.prism-editor__textarea {*/
+    /*    display: none !important;*/
+    /*}*/
 </style>
