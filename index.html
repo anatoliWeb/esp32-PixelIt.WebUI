@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" style="overflow: hidden;">
+<head >
   <meta charset="UTF-8" />
   <link rel="icon" href="/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +14,14 @@
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
   />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* важливо */
+      height: 100vh;
+    }
+  </style>
   <!-- Підключаємо точку входу Vite -->
   <script type="module" src="/src/main.js"></script>
 </head>

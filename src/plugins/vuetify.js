@@ -20,21 +20,26 @@ import { uk, en, de } from 'vuetify/locale'
 
 // 4) створюємо кастомні палітри для тем
 const lightTheme = {
-    dark: false,
     colors: {
-        primary: '#1976D2',      // синій
-        secondary: '#424242',    // сірий
-        accent: '#82B1FF',       // блакитний акцент
-        error: '#FF5252',        // червоний
+        background: '#ffffff',         // Фон сторінки
+        surface: '#f5f5f5',            // Поверхні: картки, меню тощо
+        primary: '#1976D2',            // Основний колір (кнопки, акценти)
+        secondary: '#424242',          // Вторинний колір (менш важливі елементи)
+        accent: '#82B1FF',             // Акцентний колір
+        error: '#FF5252',              // Колір помилки
         info: '#2196F3',
         success: '#4CAF50',
         warning: '#FB8C00',
     },
+    variables: {
+        'font-size-root': '18px',      // 🔠 Глобальний базовий розмір шрифту для всієї теми
+        // Змінює масштаб усіх текстів у компонентах Vuetify
+    }
 }
 
 const darkTheme = {
-    dark: true,
     colors: {
+        background: '#121212',
         primary: '#90CAF9',
         secondary: '#EEEEEE',
         accent: '#FFAB40',
@@ -43,6 +48,9 @@ const darkTheme = {
         success: '#66BB6A',
         warning: '#FFA726',
     },
+    variables: {
+        'font-size-root': '16px' // більший базовий шрифт
+    }
 }
 
 // дефолтна мова з env або 'uk'
@@ -68,7 +76,7 @@ export default createVuetify({
     },
 
     theme: {
-        defaultTheme: 'light',
+        defaultTheme: 'dark',
         themes: {
             light: lightTheme,
             dark: darkTheme,
@@ -77,6 +85,9 @@ export default createVuetify({
 
     // 5) Глобальні налаштування дефолтів для компонентів
     defaults: {
+        VListItemTitle: {
+            style: 'font-size: 1.1rem;'  // Збільшений розмір шрифту
+        },
         VBtn: {
             elevation: 2,
             rounded: true,

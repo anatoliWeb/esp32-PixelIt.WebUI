@@ -52,6 +52,8 @@ if (location.host.includes('.github.io') || import.meta.env.VUE_APP_DEMO_MODE ==
     app.config.globalProperties.$demoMode = false
 }
 
+app.config.globalProperties.$vuetify = vuetify.framework
+
 window.__appStore = store
 
 // Монтування додатку

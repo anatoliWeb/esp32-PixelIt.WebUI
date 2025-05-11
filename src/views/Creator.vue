@@ -1,17 +1,29 @@
 <template>
+
+
     <v-container class="gallery">
-        <v-row>
-            <v-col cols="12">
-                <v-bottom-navigation :value="pixelMode" color="primary">
-                    <v-btn @click="changePixelModeTo8x8">
-                        <span>{{$t("gallery.mode8x8")}}</span>
-                        <v-icon>mdi-grid</v-icon>
-                    </v-btn>
-                    <v-btn @click="changePixelModeTo8x32">
-                        <span>{{$t("gallery.mode8x32")}}</span>
-                        <v-icon>mdi-grid</v-icon>
-                    </v-btn>
-                </v-bottom-navigation>
+        <v-row class="ma-0 pa-0">
+            <v-col cols="12" class="pa-0">
+                <v-sheet
+                        elevation="0"
+                        class="d-flex justify-center align-center py-2"
+                >
+                    <v-btn-toggle
+                            v-model="pixelMode"
+                            mandatory
+                            divided
+                            class="bg-transparent"
+                    >
+                        <v-btn value="0" @click="changePixelModeTo8x8">
+                            <v-icon start>mdi-grid</v-icon>
+                            {{ $t('gallery.mode8x8') }}
+                        </v-btn>
+                        <v-btn value="1" @click="changePixelModeTo8x32">
+                            <v-icon start>mdi-grid</v-icon>
+                            {{ $t('gallery.mode8x32') }}
+                        </v-btn>
+                    </v-btn-toggle>
+                </v-sheet>
             </v-col>
         </v-row>
 

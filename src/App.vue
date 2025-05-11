@@ -1,6 +1,10 @@
 <template>
-    <v-app>
-        <v-navigation-drawer v-model="drawer" app>
+    <v-app style="min-height: 100vh; width: 100%;">
+        <v-navigation-drawer
+                v-model="drawer"
+                app
+                width="330"
+        >
             <v-img class="mt-3" max-height="100" src="./assets/logo.png" contain></v-img>
             <NavLinks :items="navLinks" />
         </v-navigation-drawer>
@@ -63,7 +67,7 @@
 
         </v-app-bar>
 
-        <v-main>
+        <v-main style="overflow-y: auto; height: 100vh;">
             <router-view />
         </v-main>
     </v-app>
@@ -73,6 +77,15 @@
     import NavLinks from './components/NavLinks.vue'
     import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
     import { useApp }       from '@/composables/useApp'
+    import { watch, getCurrentInstance } from 'vue'
+    import { useStore } from 'vuex'
+    import { useTheme } from 'vuetify'
+
+    const theme = useTheme()
+    const store = useStore()
+    watch(() => store.state.config.darkMode, (val) => {
+        theme.global.name.value = val ? 'dark' : 'light'
+    }, { immediate: true })
 
     const {
         drawer,
@@ -147,4 +160,11 @@
             display: none;
         }
     }
+
+    @media (min-width: 1920px) {
+        .v-container {
+            max-width: 100%;
+        }
+    }
+
 </style>

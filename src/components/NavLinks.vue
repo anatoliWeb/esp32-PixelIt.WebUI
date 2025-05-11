@@ -5,10 +5,12 @@
             <v-divider v-if="item.separator" />
             <v-list-item
                     v-else
+                    :style="{ width: '330px' }"
                     :to="item.page"
                     :href="item.url"
                     :target="item.target"
                     :disabled="item.separator"
+                    class="nav-link"
             >
                 <template #prepend>
                     <v-icon>{{ item.icon }}</v-icon>
@@ -32,5 +34,37 @@
 </script>
 
 <style scoped>
-    /* Додайте стилі за потреби */
+    .nav-link {
+        font-size: 16px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 26px 16px !important;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-icon {
+        font-size: 22px;
+        min-width: 24px;
+    }
+
+    .nav-title {
+        flex-grow: 1;
+    }
+
+    @media (min-width: 600px) {
+        .nav-link {
+            width: 240px;
+        }
+    }
+
+    @media (min-width: 960px) {
+        .nav-link {
+            width: 280px;
+        }
+    }
 </style>
